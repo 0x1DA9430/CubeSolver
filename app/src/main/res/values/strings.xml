@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CubeSolver</string>
+    <string name="home_title">Rubic\'s\nCube\nSolver</string>
+    <string name="tap_to_scan">Tap to scan your cube</string>
+</resources>
