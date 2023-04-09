@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "CubeSolver"
 include ':app'
+
+include ':opencv'

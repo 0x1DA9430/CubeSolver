@@ -2,4 +2,19 @@
     <string name="app_name">CubeSolver</string>
     <string name="home_title">Rubic\'s\nCube\nSolver</string>
     <string name="tap_to_scan">Tap to scan your cube</string>
+
+
+    <!-- solved dialog -->
+    <string name="solved_dialog_title">Solved!!</string>
+    <string name="solved_dialog_msg_prefix">Top : Yellow, Front : Green.</string>
+    <string name="solved_dialog_positive">OK</string>
+    <string name="solved_dialog_animation">Animation</string>
+    <!-- invalid cube dialog -->
+    <string name="invalid_dialog_title">Invalid Cube…</string>
+    <string name="invalid_dialog_positive">RESET</string>
+    <string name="invalid_dialog_neutral">FIX</string>
+    <!-- Right Face? dialog-->
+    <string name="right_face_dialog_title">Right Face?</string>
+    <string name="right_face_dialog_negative">RESCAN</string>
+    <string name="right_face_dialog_positive">YES</string>
 </resources>

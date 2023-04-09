@@ -36,7 +36,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="60dp"
-        android:contentDescription="Tap here to scan"
+        android:contentDescription="This is a camera image"
         android:scaleType="fitCenter"
         android:src="@drawable/camera"
         app:layout_constraintEnd_toEndOf="parent"
