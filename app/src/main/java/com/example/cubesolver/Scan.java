@@ -51,7 +51,7 @@ public class Scan extends AppCompatActivity {
     /*** Fixed values ***/
     private static final String TAG = "RubikCubeSolver";
     final private int REQUEST_CODE_FOR_PERMISSIONS = 10;
-    private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA", "android.permission.WRITE_EXTERNAL_STORAGE"};
+    private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA"};
 
     /*** Views ***/
     protected LinearProgressIndicator scanIndicator;

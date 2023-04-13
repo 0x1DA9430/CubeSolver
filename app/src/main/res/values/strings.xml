@@ -1,10 +1,18 @@
 <resources>
     <string name="app_name">CubeSolver</string>
+
+    <!-- Home -->
     <string name="home_title">Rubic\'s\nCube\nSolver</string>
     <string name="tap_to_scan">Tap to scan your cube</string>
+
+    <!-- Scan -->
     <string name="btn_scan">Scan</string>
-    <string name="btn_retry">Something Wrong? Tap to Retry ↻</string>
+    <string name="btn_rescan">Something Wrong? Tap to Rescan ↻</string>
     <string name="scan_page_title">Please follow the instructions to scan each face</string>
+
+    <!-- Invalid -->
+    <string name="invalid_tile">Oops!\nThis cube is\nInvalid</string>
+    <string name="btn_retry">Tap to Retry ↻</string>
 
 
     <!-- solved dialog -->
