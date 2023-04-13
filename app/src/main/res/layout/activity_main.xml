@@ -22,14 +22,14 @@
 
     <ImageView
         android:id="@+id/img_home_image"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="330dp"
+        android:layout_height="330dp"
         android:layout_marginTop="40dp"
         android:contentDescription="This is a cube image"
         android:src="@drawable/cube"
-        app:layout_constraintTop_toBottomOf="@id/tv_home_title"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tv_home_title" />
 
     <ImageButton
         android:id="@+id/img_btn_scan"

@@ -15,7 +15,7 @@
         android:theme="@style/Theme.CubeSolver"
         tools:targetApi="31">
         <activity
-            android:name=".ScanCube"
+            android:name=".Scan"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

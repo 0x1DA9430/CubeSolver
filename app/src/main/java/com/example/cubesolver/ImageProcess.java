@@ -19,14 +19,21 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ImageUtil {
-    private static final String TAG = "RubikCubeSolverUtil";
+/*
+* 转换魔方注释，替换颜色标签。
+* 计算图像中方框的平均颜色。
+* 计算两个颜色矩阵的移动平均值。
+* 使用 OpenCV 将 ImageProxy 对象转换为 Mat 对象。
+* 生成一个可视化魔方解决方案的 URI。
+*/
+
+public class ImageProcess {
+    private static final String TAG = "ImageProcess";
 
     // color definition
     static final double[][] colorData = {
@@ -47,7 +54,7 @@ public class ImageUtil {
             "YRWO",  // Green
             "GRBO",  // White
             "YBWG",  // Red
-            "YOBR",  // Blue
+            "YOWR",  // Blue
     };
 
     // Error Message
@@ -60,6 +67,7 @@ public class ImageUtil {
             "Parity error: Two corners or two edges have to be exchanged.",  // -6
     };
 
+    // 转换魔方注释，替换扫描到的魔方的颜色标签。
     static String convertCubeAnnotation(String scannedCube) {
         return scannedCube
                 .replace("Y", "U")
@@ -69,6 +77,7 @@ public class ImageUtil {
                 .replace("W", "D");
     }
 
+    // 计算图像中方框的平均颜色。
     static Mat calcBoxColorAve(Mat mat, int boxX, int boxY, int boxLen) {
         // extract box as sub matrix
         Mat boxMat = mat.submat(new Rect(boxX, boxY, boxLen, boxLen));
@@ -90,6 +99,7 @@ public class ImageUtil {
         return ret;
     }
 
+    // 计算两个颜色矩阵的移动平均值。
     static Mat calcMovingAveColor(@Nullable Mat matPrev, Mat matCurrent, float alpha) {
         if (matPrev == null) {
             return matCurrent;
@@ -103,6 +113,7 @@ public class ImageUtil {
         return ret;
     }
 
+    // 使用 OpenCV 将 ImageProxy 对象转换为 Mat 对象。
     static public Mat getMatFromImage(ImageProxy image) {
         /* Create cv::mat(RGB888) from image(NV21) */
         /* https://stackoverflow.com/questions/30510928/convert-android-camera2-api-yuv-420-888-to-rgb */
@@ -138,6 +149,7 @@ public class ImageUtil {
         return null;
     }
 
+    // 生成魔方动画链接。外部网站
     static public Uri generateAnimationLink(String solution) {
         String baseUrl = "https://ruwix.com/widget/3d/?";
         String url = baseUrl + String.format("label=%s", "RubikCubeSolver");

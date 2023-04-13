@@ -47,7 +47,7 @@ import org.opencv.utils.Converters;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ScanCube extends AppCompatActivity {
+public class Scan extends AppCompatActivity {
     /*** Fixed values ***/
     private static final String TAG = "RubikCubeSolver";
     final private int REQUEST_CODE_FOR_PERMISSIONS = 10;
@@ -83,7 +83,7 @@ public class ScanCube extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan_cube);
+        setContentView(R.layout.activity_scan);
 
         scanIndicator = findViewById(R.id.scan_indicator);
         imageView = findViewById(R.id.image_view);
@@ -103,16 +103,16 @@ public class ScanCube extends AppCompatActivity {
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
                         if (i == 1 && j == 1) {
-                            scannedCube += ImageUtil.colorLabel[currentFaceIdx];
+                            scannedCube += ImageProcess.colorLabel[currentFaceIdx];
                         } else {
-                            scannedCube += ImageUtil.colorLabel[detectedColor[j][i]];  // hacky idx
+                            scannedCube += ImageProcess.colorLabel[detectedColor[j][i]];  // hacky idx
                         }
                     }
                 }
                 if (detectedColor[1][1] != currentFaceIdx && currentFaceIdx < 5) {
-                    new MaterialAlertDialogBuilder(ScanCube.this)
+                    new MaterialAlertDialogBuilder(Scan.this)
                             .setTitle(R.string.right_face_dialog_title)
-                            .setMessage("Center color should be " + ImageUtil.colorName[currentFaceIdx] + ", instead of " + ImageUtil.colorName[detectedColor[1][1]] + ".")
+                            .setMessage("Center color should be " + ImageProcess.colorName[currentFaceIdx] + ", instead of " + ImageProcess.colorName[detectedColor[1][1]] + ".")
                             .setNegativeButton(R.string.right_face_dialog_negative, (dialogInterface, i) -> scanRollback())
                             .setPositiveButton(R.string.right_face_dialog_positive, null)
                             .setCancelable(false)
@@ -135,7 +135,7 @@ public class ScanCube extends AppCompatActivity {
                 if (currentFaceIdx > 0) {
                     scanRollback();
                 } else {
-                    new MaterialAlertDialogBuilder(ScanCube.this)
+                    new MaterialAlertDialogBuilder(Scan.this)
                             .setTitle("Confirm")
                             .setMessage("Is it OK to finish this app?")
                             .setPositiveButton("Finish", (dialog, i) -> finish())
@@ -156,12 +156,12 @@ public class ScanCube extends AppCompatActivity {
 
         // prepare K-nearest neighbor
         for (int i = 0; i < 6; i++) {
-            trainData.put(i, 0, ImageUtil.colorData[i]);
+            trainData.put(i, 0, ImageProcess.colorData[i]);
         }
-        knn.train(trainData, ROW_SAMPLE, Converters.vector_int_to_Mat(ImageUtil.colorResponse));
+        knn.train(trainData, ROW_SAMPLE, Converters.vector_int_to_Mat(ImageProcess.colorResponse));
 
         // fully initialize solver
-        Search.init();
+        Solver.init();
     }
 
     @Override
@@ -194,9 +194,9 @@ public class ScanCube extends AppCompatActivity {
 
     private void display() {
         resetButton.setEnabled(currentFaceIdx > 0);
-        cubeView.setSideColors(ImageUtil.arrSideColors[currentFaceIdx]);
+        cubeView.setSideColors(ImageProcess.arrSideColors[currentFaceIdx]);
         cubeView.setFrontColors(detectedColor);
-        cubeView.setCenterColor(ImageUtil.colorLabel[currentFaceIdx]);
+        cubeView.setCenterColor(ImageProcess.colorLabel[currentFaceIdx]);
         updateIndicator();
     }
 
@@ -214,11 +214,13 @@ public class ScanCube extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             String scannedCube = strings[0];
             Log.i(TAG, "Scanned : " + scannedCube);
-            String scrambledCube = ImageUtil.convertCubeAnnotation(scannedCube);
+            String scrambledCube = ImageProcess.convertCubeAnnotation(scannedCube);
             Log.i(TAG, "Scrambled : " + scrambledCube);
-            lastErrorCode = Tools.verify(scrambledCube);
+            lastErrorCode = Util.verify(scrambledCube);
             if (lastErrorCode == 0) {
-                return new Search().solution(scrambledCube, 21, 100000000, 10000, Search.APPEND_LENGTH);
+                return new Solver().solution(scrambledCube, 21, 100000000, 10000, Solver.APPEND_LENGTH);
+            } else {
+                // TODO: this cube is not solvable
             }
             return null;
         }
@@ -226,13 +228,13 @@ public class ScanCube extends AppCompatActivity {
         @Override
         protected void onPostExecute(String moves) {
             if (lastErrorCode == 0) {
-                new MaterialAlertDialogBuilder(ScanCube.this)
+                new MaterialAlertDialogBuilder(Scan.this)
                         .setTitle(R.string.solved_dialog_title)
                         .setMessage(getString(R.string.solved_dialog_msg_prefix) + "\n" + moves)
                         .setPositiveButton(R.string.solved_dialog_positive, null)
                         .setNeutralButton(R.string.solved_dialog_animation, (dialog, i) -> {
                             String solution = moves.substring(0, moves.indexOf('(') - 1);
-                            Uri webpage = ImageUtil.generateAnimationLink(solution);
+                            Uri webpage = ImageProcess.generateAnimationLink(solution);
                             Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                             Log.i(TAG, "Start Animation");
                             startActivity(intent);
@@ -242,9 +244,9 @@ public class ScanCube extends AppCompatActivity {
                 scanReset();
             } else {
                 int msgIdx = (lastErrorCode * -1) - 1;
-                new MaterialAlertDialogBuilder(ScanCube.this)
+                new MaterialAlertDialogBuilder(Scan.this)
                         .setTitle(R.string.invalid_dialog_title)
-                        .setMessage("errorCode : " + lastErrorCode + "\n" + ImageUtil.verifyMsg[msgIdx])
+                        .setMessage("errorCode : " + lastErrorCode + "\n" + ImageProcess.verifyMsg[msgIdx])
                         .setPositiveButton(R.string.invalid_dialog_positive, (dialog, i) -> scanReset())
                         .setNeutralButton(R.string.invalid_dialog_neutral, null)
                         .setCancelable(false)
@@ -302,7 +304,7 @@ public class ScanCube extends AppCompatActivity {
         @Override
         public void analyze(@NonNull ImageProxy image) {
             /* Create cv::mat(RGB888) from image(NV21) */
-            Mat mat = ImageUtil.getMatFromImage(image);
+            Mat mat = ImageProcess.getMatFromImage(image);
 
             /* Fix image rotation (it looks image in PreviewView is automatically fixed by CameraX???) */
             mat = fixMatRotation(mat);
@@ -322,8 +324,8 @@ public class ScanCube extends AppCompatActivity {
             synchronized (detectedColor) {
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
-                        Mat color = ImageUtil.calcBoxColorAve(mat, startX + boxLen * i, startY + boxLen * j, boxLen);
-                        color = ImageUtil.calcMovingAveColor(aveColor[i][j], color, alpha);
+                        Mat color = ImageProcess.calcBoxColorAve(mat, startX + boxLen * i, startY + boxLen * j, boxLen);
+                        color = ImageProcess.calcMovingAveColor(aveColor[i][j], color, alpha);
                         aveColor[i][j] = color;
                         Mat res = new Mat();
                         knn.findNearest(color, 1, res);
@@ -338,7 +340,7 @@ public class ScanCube extends AppCompatActivity {
             // draw frame and detected color
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    Imgproc.putText(matOutput, ImageUtil.colorLabel[detectedColor[i][j]], new Point(startX + boxLen * i, startY + boxLen * (j + 1)), 2, 3, new Scalar(ImageUtil.colorData[detectedColor[i][j]]));
+                    Imgproc.putText(matOutput, ImageProcess.colorLabel[detectedColor[i][j]], new Point(startX + boxLen * i, startY + boxLen * (j + 1)), 2, 3, new Scalar(ImageProcess.colorData[detectedColor[i][j]]));
                     Imgproc.rectangle(matOutput, new Rect(startX + boxLen * i, startY + boxLen * j, boxLen, boxLen), new Scalar(255, 0, 0), 2);
                     Log.v(TAG, "[analyze] (" + i + ", " + j + ") = " + detectedColor[i][j]);
                 }

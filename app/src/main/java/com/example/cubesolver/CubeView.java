@@ -11,14 +11,19 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
+/*
+* 用于在Android应用中显示一个3x3魔方，并根据需要更新其颜色。
+* 它继承自View类，重写了onDraw方法以便在视图上绘制魔方。
+* 在这个类中，魔方的前面有9个色块，四个侧面各有一个色块。
+*/
 
 public class CubeView extends View {
 
     private final Paint paint = new Paint();
     private Canvas canvas;
-    private String[][] frontColors = {{"X", "X", "X"}, {"X", "X", "X"}, {"X", "X", "X",}};
-    private String[] sideColors = {"X", "X", "X", "X",};
-    final private int padding = 4;
+    private String[][] frontColors = {{"X", "X", "X"}, {"X", "X", "X"}, {"X", "X", "X",}};  // 3x3 色块颜色
+    private String[] sideColors = {"X", "X", "X", "X",};    // 4个侧面色块颜色
+    final private int padding = 4;  // 色块之间的间距
 
     public CubeView(Context context) {
         this(context, null);
@@ -32,6 +37,10 @@ public class CubeView extends View {
         super(context, attrs, defStyleAttr);
     }
 
+    /*
+    * 这个方法在视图需要重新绘制时被调用。
+    * 它首先设置画布的背景颜色，然后计算绘制魔方色块的位置和尺寸，最后绘制前面的9个色块和四个侧面的色块。
+    */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -39,7 +48,7 @@ public class CubeView extends View {
 
         int w = getWidth();
         int h = getHeight();
-        paint.setColor(Color.DKGRAY);
+        paint.setColor(Color.rgb(115, 187, 243));
         canvas.drawRect(0, 0, w, h, paint);
 
         // calculate box point
@@ -88,6 +97,7 @@ public class CubeView extends View {
         canvas.drawRect(new Rect(boxStartX, boxStartY, boxStartX + thickness, boxStartY + boxLen), paint);  // Right
     }
 
+    // 根据颜色的标签返回颜色的RGB值，同时起到定义颜色的作用
     private int getColor(String color) {
         assert color.length() == 1;
         switch (color) {
@@ -104,7 +114,7 @@ public class CubeView extends View {
             case "G":
                 return Color.rgb(0, 154, 68);
             default:
-                return Color.DKGRAY;
+                return Color.rgb(115, 187, 243);
         }
     }
 
@@ -116,10 +126,10 @@ public class CubeView extends View {
         String[][] colorsString = {{"", "", ""}, {"", "", ""}, {"", "", ""},};
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                colorsString[i][j] = ImageUtil.colorLabel[colors[i][j]];
+                colorsString[i][j] = ImageProcess.colorLabel[colors[i][j]];
             }
         }
-        setFrontColors(colorsString);
+        setFrontColors(colorsString);  // 通知系统重新绘制视图
     }
 
     public void setFrontColors(String[][] colors) {

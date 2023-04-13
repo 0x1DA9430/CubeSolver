@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         scanCubeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ScanCube.class);
+                Intent intent = new Intent(MainActivity.this, Scan.class);
                 startActivity(intent);
             }
         });
