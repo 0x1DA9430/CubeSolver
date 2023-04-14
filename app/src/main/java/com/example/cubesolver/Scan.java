@@ -228,19 +228,25 @@ public class Scan extends AppCompatActivity {
         @Override
         protected void onPostExecute(String moves) {
             if (lastErrorCode == 0) {
-                new MaterialAlertDialogBuilder(Scan.this)
-                        .setTitle(R.string.solved_dialog_title)
-                        .setMessage(getString(R.string.solved_dialog_msg_prefix) + "\n" + moves)
-                        .setPositiveButton(R.string.solved_dialog_positive, null)
-                        .setNeutralButton(R.string.solved_dialog_animation, (dialog, i) -> {
-                            String solution = moves.substring(0, moves.indexOf('(') - 1);
-                            Uri webpage = ImageProcess.generateAnimationLink(solution);
-                            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                            Log.i(TAG, "Start Animation");
-                            startActivity(intent);
-                        })
-                        .setCancelable(false)
-                        .show();
+//                new MaterialAlertDialogBuilder(Scan.this)
+//                        .setTitle(R.string.solved_dialog_title)
+//                        .setMessage(getString(R.string.solved_dialog_msg_prefix) + "\n" + moves)
+//                        .setPositiveButton(R.string.solved_dialog_positive, null)
+//                        .setNeutralButton(R.string.solved_dialog_animation, (dialog, i) -> {
+//                            String solution = moves.substring(0, moves.indexOf('(') - 1);
+//                            Uri webpage = ImageProcess.generateAnimationLink(solution);
+//                            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+//                            Log.i(TAG, "Start Animation");
+//                            startActivity(intent);
+//                        })
+//                        .setCancelable(false)
+//                        .show();
+
+                // Jump to `solution` activity
+                Intent intent = new Intent(Scan.this, Solution.class);
+                intent.putExtra("solution", moves);
+                startActivity(intent);
+
                 scanReset();
             } else {
 //                int msgIdx = (lastErrorCode * -1) - 1;
@@ -258,7 +264,6 @@ public class Scan extends AppCompatActivity {
                 intent.putExtra("errorCode", lastErrorCode);
                 startActivity(intent);
                 scanReset();
-
             }
             enableButtons();
         }

@@ -14,6 +14,9 @@
     <string name="invalid_tile">Oops!\nThis cube is\nInvalid</string>
     <string name="btn_retry">Tap to Retry ↻</string>
 
+    <!-- Solution -->
+    <string name="solve_title">Let\'s Start</string>
+
 
     <!-- solved dialog -->
     <string name="solved_dialog_title">Solved!!</string>
