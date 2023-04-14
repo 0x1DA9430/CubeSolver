@@ -20,8 +20,8 @@
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
+        android:layout_width="270dp"
+        android:layout_height="270dp"
         app:layout_constraintBottom_toTopOf="@id/scan_indicator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,8 +43,8 @@
 
     <com.example.cubesolver.CubeView
         android:id="@+id/cube_view"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
+        android:layout_width="270dp"
+        android:layout_height="270dp"
         app:layout_constraintBottom_toTopOf="@id/scan_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,13 +64,12 @@
     <Button
         android:id="@+id/reset_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_retry"
+        android:layout_height="60dp"
+        android:text="@string/btn_rescan"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scan_button" />
-
+        android:layout_marginBottom="-6dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,7 +49,7 @@ import java.util.concurrent.Executors;
 
 public class Scan extends AppCompatActivity {
     /*** Fixed values ***/
-    private static final String TAG = "RubikCubeSolver";
+    private static final String TAG = "Scan";
     final private int REQUEST_CODE_FOR_PERMISSIONS = 10;
     private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA"};
 
@@ -243,16 +243,22 @@ public class Scan extends AppCompatActivity {
                         .show();
                 scanReset();
             } else {
-                int msgIdx = (lastErrorCode * -1) - 1;
-                new MaterialAlertDialogBuilder(Scan.this)
-                        .setTitle(R.string.invalid_dialog_title)
-                        .setMessage("errorCode : " + lastErrorCode + "\n" + ImageProcess.verifyMsg[msgIdx])
-                        .setPositiveButton(R.string.invalid_dialog_positive, (dialog, i) -> scanReset())
-                        .setNeutralButton(R.string.invalid_dialog_neutral, null)
-                        .setCancelable(false)
-                        .show();
-                scanRollback();
+//                int msgIdx = (lastErrorCode * -1) - 1;
+//                new MaterialAlertDialogBuilder(Scan.this)
+//                        .setTitle(R.string.invalid_dialog_title)
+//                        .setMessage("errorCode : " + lastErrorCode + "\n" + ImageProcess.verifyMsg[msgIdx])
+//                        .setPositiveButton(R.string.invalid_dialog_positive, (dialog, i) -> scanReset())
+//                        .setNeutralButton(R.string.invalid_dialog_neutral, null)
+//                        .setCancelable(false)
+//                        .show();
+//                scanRollback();
                 Log.e(TAG, "[solver] Invalid cube (errorCode : " + lastErrorCode + ")");
+                // Jump to 'invalid' activity
+                Intent intent = new Intent(Scan.this, Invalid.class);
+                intent.putExtra("errorCode", lastErrorCode);
+                startActivity(intent);
+                scanReset();
+
             }
             enableButtons();
         }
