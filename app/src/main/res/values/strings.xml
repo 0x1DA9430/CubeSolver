@@ -24,6 +24,7 @@
     <!-- Result -->
     <string name="result_title">Congrats!</string>
     <string name="btn_home">Home Page</string>
+    <string name="result_second_title">Cube Solved in</string>
 
 
     <!-- solved dialog -->

@@ -31,12 +31,13 @@
         android:text="@string/guidance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/img_invalid_image"
+        app:layout_constraintBottom_toTopOf="@+id/img_guidance"
         app:layout_constraintTop_toBottomOf="@+id/tv_solution_title"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="25dp"/>
+
 
     <ImageView
-        android:id="@+id/img_invalid_image"
+        android:id="@+id/img_guidance"
         android:layout_width="230dp"
         android:layout_height="230dp"
         android:contentDescription="This is a guide image"
@@ -44,7 +45,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_guidance"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="40dp"/>
+
+    <TextView
+        android:id="@+id/tv_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_solution"
+        app:layout_constraintTop_toBottomOf="@+id/img_guidance"
+        android:text="Space Holder"
+        android:textSize="@dimen/second_title_text_size"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/tv_solution"
@@ -54,12 +69,12 @@
         android:layout_marginEnd="21dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_invalid_image"
+        app:layout_constraintTop_toBottomOf="@+id/tv_timer"
         android:text="Space holder"
         android:textSize="@dimen/larger_content_text_size"
         android:textStyle="bold|italic"
         android:gravity="center"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/tv_explanation"
@@ -85,6 +100,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_explanation" />
+
+    <ImageButton
+        android:id="@+id/btn_speak"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/speak"
+        android:background="@drawable/blue_circle"
+        android:paddingLeft="12dp"
+        android:paddingRight="8dp"
+        android:contentDescription="Speak"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_next_step"
+        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="15dp"/>
+
 
     <Button
         android:id="@+id/btn_next_step"

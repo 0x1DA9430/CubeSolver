@@ -29,15 +29,41 @@
         android:id="@+id/img_result_image"
         android:layout_width="260dp"
         android:layout_height="260dp"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="100dp"
         android:contentDescription="This is a cube image"
         android:src="@drawable/cube"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_result_title" />
 
+    <TextView
+        android:id="@+id/tv_result_second_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/result_second_title"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_result_image"
+        android:layout_marginTop="50dp"/>
+
+    <TextView
+        android:id="@+id/tv_result_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Place Holder"
+        android:textSize="@dimen/extra_large_content_text_size"
+        android:textStyle="bold|italic"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_result_second_title"
+        android:layout_marginTop="20dp"/>
+
     <Button
-        android:id="@+id/btn_finish"
+        android:id="@+id/btn_home"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:text="@string/btn_home"

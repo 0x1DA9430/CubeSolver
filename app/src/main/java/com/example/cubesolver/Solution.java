@@ -6,17 +6,19 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.speech.tts.TextToSpeech;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.View;
-import android.widget.Switch;
+import android.os.Handler;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,12 +26,70 @@ public class Solution extends AppCompatActivity {
 
     private TextView solution;
     private Intent receivedIntent;
+    private Button finishButton;
+    private TextView timerTextView;
+    private Handler handler;
+    private long startTime;
+    private Runnable timer = new Runnable() {
+        @Override
+        public void run() {
+            long elapsedMillis = SystemClock.elapsedRealtime() - startTime;
+            int minutes = (int) (elapsedMillis / 60000);
+            int seconds = (int) (elapsedMillis % 60000 / 1000);
+            int millis = (int) (elapsedMillis % 1000);
+            timerTextView.setText(String.format("%02d:%02d:%03d", minutes, seconds, millis));
+            // Update every 1 millisecond
+            handler.postDelayed(this, 1);
+        }
+    };
+    private TextToSpeech textToSpeech;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solution);
 
+        timerTextView = findViewById(R.id.tv_timer);
+        finishButton = findViewById(R.id.btn_finish);
+
+        // Start the timer
+        handler = new Handler();
+        startTime = SystemClock.elapsedRealtime();
+        handler.post(timer);
+
+        // Initialize the TextToSpeech object
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    // Language
+                    textToSpeech.setLanguage(Locale.ENGLISH);
+                    // Pitch
+                    float pitch = 0.85f;
+                    textToSpeech.setPitch(pitch);
+                    // Speed
+                    float speechRate = 1.45f;
+                    textToSpeech.setSpeechRate(speechRate);
+                }
+            }
+        });
+
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Stop the timer
+                handler.removeCallbacks(timer);
+                long elapsedMillis = SystemClock.elapsedRealtime() - startTime;
+                // Go to the Result activity
+                Intent intent = new Intent(Solution.this, Result.class);
+                intent.putExtra("elapsedMillis", elapsedMillis);
+                startActivity(intent);
+            }
+        });
+
+        // TODO: Get the solution from the previous activity
 //        // Get the solution from the previous activity
 //        receivedIntent = getIntent();
 //        String moves = receivedIntent.getStringExtra("solution");
@@ -151,7 +211,6 @@ public class Solution extends AppCompatActivity {
                 }
             }
 
-
             // Highlight and bold words
             public void highlight (String nextStep) {
                 Pattern pattern = Pattern.compile("\\b(?!Turn|the|face|\\.)\\w+\\b");
@@ -163,9 +222,29 @@ public class Solution extends AppCompatActivity {
                 }
                 solutionStep.setText(spannableString);
             }
-
-
         });
 
+
+        // Speaker
+        ImageButton btnSpeak = findViewById(R.id.btn_speak);
+        btnSpeak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView solutionStep = findViewById(R.id.tv_solution_step);
+                String textToRead = solutionStep.getText().toString();
+                textToSpeech.speak(textToRead, TextToSpeech.QUEUE_FLUSH, null, null);
+            }
+        });
+
+    }
+
+    // Release the TextToSpeech object resources
+    @Override
+    protected void onDestroy() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        super.onDestroy();
     }
 }
