@@ -4,16 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Result">
+
+    <nl.dionsegijn.konfetti.KonfettiView
+        android:id="@+id/view_konfetti"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <TextView
-        android:id="@+id/tv_home_title"
+        android:id="@+id/tv_result_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginStart="20dp"
         android:fontFamily="sans-serif"
-        android:text="@string/home_title"
+        android:text="@string/result_title"
         android:textSize="@dimen/title_text_size"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -21,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/img_home_image"
+        android:id="@+id/img_result_image"
         android:layout_width="260dp"
         android:layout_height="260dp"
         android:layout_marginTop="90dp"
@@ -29,31 +34,17 @@
         android:src="@drawable/cube"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_home_title" />
+        app:layout_constraintTop_toBottomOf="@id/tv_result_title" />
 
-    <ImageButton
-        android:id="@+id/img_btn_scan"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="90dp"
-        android:contentDescription="This is a camera image"
-        android:scaleType="fitCenter"
-        android:src="@drawable/camera"
+    <Button
+        android:id="@+id/btn_finish"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/btn_home"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_home_image" />
-
-    <TextView
-        android:id="@+id/tv_tap_to_scan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/black"
-        android:text="@string/tap_to_scan"
-        android:textSize="@dimen/content_text_size"
-        app:layout_constraintTop_toBottomOf="@id/img_btn_scan"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginBottom="-6dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

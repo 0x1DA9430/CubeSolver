@@ -16,6 +16,14 @@
 
     <!-- Solution -->
     <string name="solve_title">Let\'s Start</string>
+    <string name="guidance">Please hold the cube with the Yellow side up and the Green side facing you. Tap FINISH once the cube is solved.</string>
+    <string name="btn_next_step">Next Step</string>
+    <string name="btn_finish">Finish</string>
+    <string name="details">Details</string>
+
+    <!-- Result -->
+    <string name="result_title">Congrats!</string>
+    <string name="btn_home">Home Page</string>
 
 
     <!-- solved dialog -->

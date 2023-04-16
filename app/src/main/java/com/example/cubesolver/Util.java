@@ -229,29 +229,29 @@ class Util {
         }
     }
 
-    // FaceCube 通过每个面的颜色来表示魔方的状态。
-    static String toFaceCube(Cubie cc) {
-        char[] faceCube = new char[54];
-        char[] ts = {'U', 'R', 'F', 'D', 'L', 'B'};
-        for (int i = 0; i < 54; i++) {
-            faceCube[i] = ts[i / 9];
-        }
-        for (byte c = 0; c < 8; c++) {
-            int j = cc.ca[c] & 0x7;
-            int ori = cc.ca[c] >> 3;
-            for (byte n = 0; n < 3; n++) {
-                faceCube[cornerFacelet[c][(n + ori) % 3]] = ts[cornerFacelet[j][n] / 9];
-            }
-        }
-        for (byte e = 0; e < 12; e++) {
-            int j = cc.ea[e] >> 1;
-            int ori = cc.ea[e] & 1;
-            for (byte n = 0; n < 2; n++) {
-                faceCube[edgeFacelet[e][(n + ori) % 2]] = ts[edgeFacelet[j][n] / 9];
-            }
-        }
-        return new String(faceCube);
-    }
+//    // FaceCube 通过每个面的颜色来表示魔方的状态。
+//    static String toFaceCube(Cubie cc) {
+//        char[] faceCube = new char[54];
+//        char[] ts = {'U', 'R', 'F', 'D', 'L', 'B'};
+//        for (int i = 0; i < 54; i++) {
+//            faceCube[i] = ts[i / 9];
+//        }
+//        for (byte c = 0; c < 8; c++) {
+//            int j = cc.ca[c] & 0x7;
+//            int ori = cc.ca[c] >> 3;
+//            for (byte n = 0; n < 3; n++) {
+//                faceCube[cornerFacelet[c][(n + ori) % 3]] = ts[cornerFacelet[j][n] / 9];
+//            }
+//        }
+//        for (byte e = 0; e < 12; e++) {
+//            int j = cc.ea[e] >> 1;
+//            int ori = cc.ea[e] & 1;
+//            for (byte n = 0; n < 2; n++) {
+//                faceCube[edgeFacelet[e][(n + ori) % 2]] = ts[edgeFacelet[j][n] / 9];
+//            }
+//        }
+//        return new String(faceCube);
+//    }
 
     /*
     * 计算魔方的排列奇偶性。
@@ -338,7 +338,7 @@ class Util {
      * Check whether the cube definition string s represents a solvable cube.
      *
      * @param facelets is the cube definition string
-     * @return 0: Cube is solvable<br>
+     * @return 0: Cube is solvable
      *         -1: There is not exactly one facelet of each colour
      *         -2: Not all 12 edges exist exactly once
      *         -3: Flip error: One edge has to be flipped

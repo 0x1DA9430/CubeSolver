@@ -14,7 +14,7 @@
         android:layout_marginStart="20dp"
         android:fontFamily="sans-serif"
         android:text="@string/solve_title"
-        android:textSize="@dimen/tilte_text_size"
+        android:textSize="@dimen/title_text_size"
         android:textStyle="bold"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,8 +27,8 @@
         android:layout_marginStart="21dp"
         android:layout_marginEnd="21dp"
         android:textSize="@dimen/content_text_size"
-        android:text="Hold the cube with the yellow side up and the green side facing you."
-        android:textColor="@color/blue"
+        android:textColor="@color/gray"
+        android:text="@string/guidance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/img_invalid_image"
@@ -37,8 +37,8 @@
 
     <ImageView
         android:id="@+id/img_invalid_image"
-        android:layout_width="260dp"
-        android:layout_height="260dp"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
         android:contentDescription="This is a guide image"
         android:src="@drawable/guide"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,6 +56,56 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_invalid_image"
         android:text="Space holder"
-        android:layout_marginTop="30dp" />
+        android:textSize="@dimen/larger_content_text_size"
+        android:textStyle="bold|italic"
+        android:gravity="center"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/tv_explanation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/details"
+        android:textSize="@dimen/larger_content_text_size"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_solution"
+        app:layout_constraintBottom_toTopOf="@+id/tv_solution_step"/>
+
+    <TextView
+        android:id="@+id/tv_solution_step"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="21dp"
+        android:textSize="@dimen/larger_content_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_explanation" />
+
+    <Button
+        android:id="@+id/btn_next_step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_next_step"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_solution_step"
+        app:layout_constraintBottom_toTopOf="@id/btn_finish"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/btn_finish"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/btn_finish"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="-6dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

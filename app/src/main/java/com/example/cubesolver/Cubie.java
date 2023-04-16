@@ -316,7 +316,7 @@ class Cubie {
     /**
      * 检查一个魔方状态是否可解，返回一个错误代码来表示具体问题
      * Check a cubiecube for solvability. Return the error code.
-     * 0: Cube is solvable
+     *  0: Cube is solvable
      * -2: Not all 12 edges exist exactly once
      * -3: Flip error: One edge has to be flipped
      * -4: Not all corners exist exactly once
