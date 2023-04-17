@@ -31,6 +31,14 @@
     <string name="settings_language">Language</string>
     <string name="settings_pitch">Pitch</string>
     <string name="speech_rate">Speech Rate</string>
+    <string name="settings_speech_language">Speech Language                      English(UK)</string>
+    <string name="settings_app_language">App Language                            English(UK)</string>
+
+    <!-- History -->
+    <string name="history_title">History</string>
+    <string name="history_date_time_title">Date/Time</string>
+    <string name="history_result_title">Result (mm:ss:ms)</string>
+
 
 
     <!-- solved dialog -->

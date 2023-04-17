@@ -23,7 +23,7 @@
         android:id="@+id/tv_pitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:text="@string/settings_pitch"
         android:textColor="@color/black"
         android:textSize="@dimen/larger_content_text_size"
@@ -44,7 +44,7 @@
         android:id="@+id/tv_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:text="@string/speech_rate"
         android:textColor="@color/black"
         android:textSize="@dimen/larger_content_text_size"
@@ -65,26 +65,26 @@
         android:id="@+id/tv_speech_language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Speech Language                   English(UK)"
+        android:text="@string/settings_speech_language"
         android:textColor="@color/black"
         android:textSize="@dimen/larger_content_text_size"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_rate"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="40dp"/>
 
     <TextView
         android:id="@+id/tv_app_language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="App Language                         English(UK)"
+        android:text="@string/settings_app_language"
         android:textColor="@color/black"
         android:textSize="@dimen/larger_content_text_size"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_speech_language"
-        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="40dp"/>
 
 <!--    TODO 下拉菜单-->

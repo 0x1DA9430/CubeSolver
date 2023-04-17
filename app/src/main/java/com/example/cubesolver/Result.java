@@ -3,6 +3,7 @@ package com.example.cubesolver;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import nl.dionsegijn.konfetti.models.Shape;
@@ -13,18 +14,22 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-public class Result extends AppCompatActivity {
+
+public class Result extends AppCompatActivity implements Comparable<Result>{
 
     private Button homeButton;
     private TextView timeTextView;
+    String currentDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-
 
         // Time Used
         timeTextView = findViewById(R.id.tv_result_time);
@@ -36,6 +41,8 @@ public class Result extends AppCompatActivity {
         int millis = (int) (elapsedMillis % 1000);
         String result = String.format("%02d:%02d:%03d", minutes, seconds, millis);
         timeTextView.setText(result);
+        // Save the result to the history
+        saveResultToHistory(result);
 
 
         // Home button
@@ -73,4 +80,25 @@ public class Result extends AppCompatActivity {
             }
         });
     }
+
+
+    // Save the result to the history
+    private void saveResultToHistory(String result) {
+        SharedPreferences sharedPreferences = getSharedPreferences("results_history", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(currentDateTime, result);
+        editor.apply();
+    }
+
+    // Sort the results in descending order
+    @Override
+    public int compareTo(Result anotherResult) {
+        return -this.currentDateTime.compareTo(anotherResult.currentDateTime);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Do nothing to disable the back button
+    }
+
 }

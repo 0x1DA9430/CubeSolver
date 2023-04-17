@@ -92,8 +92,6 @@ public class Scan extends AppCompatActivity {
         scanButton = findViewById(R.id.scan_button);
 
 
-
-
         scanIndicator.show();
         updateIndicator();
 
@@ -158,14 +156,6 @@ public class Scan extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         display();
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        View decorView = getWindow().getDecorView();
-        // Hide the status bar.
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
     }
 
     private void scanReset() {
@@ -237,16 +227,6 @@ public class Scan extends AppCompatActivity {
 
                 scanReset();
             } else {
-//                int msgIdx = (lastErrorCode * -1) - 1;
-//                new MaterialAlertDialogBuilder(Scan.this)
-//                        .setTitle(R.string.invalid_dialog_title)
-//                        .setMessage("errorCode : " + lastErrorCode + "\n" + ImageProcess.verifyMsg[msgIdx])
-//                        .setPositiveButton(R.string.invalid_dialog_positive, (dialog, i) -> scanReset())
-//                        .setNeutralButton(R.string.invalid_dialog_neutral, null)
-//                        .setCancelable(false)
-//                        .show();
-//                scanRollback();
-                Log.e(TAG, "[solver] Invalid cube (errorCode : " + lastErrorCode + ")");
                 // Jump to 'invalid' activity
                 Intent intent = new Intent(Scan.this, Invalid.class);
                 intent.putExtra("errorCode", lastErrorCode);
@@ -272,7 +252,6 @@ public class Scan extends AppCompatActivity {
                     ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
                     imageAnalysis = new ImageAnalysis.Builder()
                             .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
-                            // .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
                             .setTargetAspectRatio(AspectRatio.RATIO_4_3)
                             .setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST)
                             .build();
@@ -302,14 +281,14 @@ public class Scan extends AppCompatActivity {
 
         @Override
         public void analyze(@NonNull ImageProxy image) {
-            /* Create cv::mat(RGB888) from image(NV21) */
+            // Create cv::mat(RGB888) from image(NV21)
             Mat mat = ImageProcess.getMatFromImage(image);
 
-            /* Fix image rotation (it looks image in PreviewView is automatically fixed by CameraX???) */
+            // Fix image rotation (it looks image in PreviewView is automatically fixed by CameraX???)
             mat = fixMatRotation(mat);
             int h = mat.rows(), w = mat.cols();
 
-            /* Do some image processing */
+            // Do some image processing
             Mat matOutput = new Mat(mat.rows(), mat.cols(), mat.type());
             mat.copyTo(matOutput);
 
@@ -357,11 +336,11 @@ public class Scan extends AppCompatActivity {
                 matOutput = matOutput.submat(new Rect(bitmapStartX, bitmapStartY, h, h));
             }
 
-            /* Convert cv::mat to bitmap for drawing */
+            // Convert cv::mat to bitmap for drawing
             Bitmap bitmap = Bitmap.createBitmap(matOutput.cols(), matOutput.rows(), Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(matOutput, bitmap);
 
-            /* Display the result onto ImageView */
+            // Display the result onto ImageView
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -369,7 +348,7 @@ public class Scan extends AppCompatActivity {
                 }
             });
 
-            /* Close the image otherwise, this function is not called next time */
+            // Close the image otherwise, this function is not called next time
             image.close();
         }
 

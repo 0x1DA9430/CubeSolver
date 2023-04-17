@@ -1,7 +1,9 @@
 package com.example.cubesolver;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -46,7 +48,6 @@ public class Solution extends AppCompatActivity {
     private TextToSpeech textToSpeech;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,15 +66,8 @@ public class Solution extends AppCompatActivity {
             @Override
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
-                    // Language
                     textToSpeech.setLanguage(Locale.ENGLISH);
-//                    // Pitch
-//                    float pitch = 0.85f;
-//                    textToSpeech.setPitch(pitch);
-//                    // Speed
-//                    float speechRate = 1.45f;
-//                    textToSpeech.setSpeechRate(speechRate);
-
+                    // Pitch and rate
                     SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
                     float pitch = sharedPreferences.getFloat("pitch", 0.85f);
                     float rate = sharedPreferences.getFloat("rate", 1.45f);
@@ -97,11 +91,11 @@ public class Solution extends AppCompatActivity {
             }
         });
 
-        // TODO: Get the solution from the previous activity
-//        // Get the solution from the previous activity
-//        receivedIntent = getIntent();
-//        String moves = receivedIntent.getStringExtra("solution");
-        String moves = "R L U D F B  R' L' U'  D' F'  B' R2 L2  U2  D2 F2 B2(14f)";
+
+        // Get the solution from the previous activity
+        receivedIntent = getIntent();
+        String moves = receivedIntent.getStringExtra("solution");
+//        String moves = "R L U D F B  R' L' U'  D' F'  B' R2 L2  U2  D2 F2 B2(14f)";
 
         moves = moves.substring(0, moves.indexOf('(') - 1); // Remove the unnecessary part
         String[] movesArray = moves.split("\\s+");
@@ -254,5 +248,25 @@ public class Solution extends AppCompatActivity {
             textToSpeech.shutdown();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Sure to go back to MainActivity (Home Page)?
+        new AlertDialog.Builder(this)
+                .setTitle("Sure to go back to Home Page?")
+                .setMessage("You will lose the current progress.")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Stop the timer
+                        handler.removeCallbacks(timer);
+                        // Go to the MainActivity
+                        Intent intent = new Intent(Solution.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 }
