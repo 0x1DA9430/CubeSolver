@@ -26,6 +26,12 @@
     <string name="btn_home">Home Page</string>
     <string name="result_second_title">Cube Solved in</string>
 
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_pitch">Pitch</string>
+    <string name="speech_rate">Speech Rate</string>
+
 
     <!-- solved dialog -->
     <string name="solved_dialog_title">Solved!!</string>

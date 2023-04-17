@@ -129,24 +129,14 @@ public class Scan extends AppCompatActivity {
                 new SolveTask().execute(scannedCube);
             }
         });
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+
+        // Reset button
+        resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void handleOnBackPressed() {
-                if (currentFaceIdx > 0) {
-                    scanRollback();
-                } else {
-                    new MaterialAlertDialogBuilder(Scan.this)
-                            .setTitle("Confirm")
-                            .setMessage("Is it OK to finish this app?")
-                            .setPositiveButton("Finish", (dialog, i) -> finish())
-                            .setNegativeButton("Stay", (dialog, i) -> dialog.dismiss())
-                            .setCancelable(false)
-                            .show();
-                }
+            public void onClick(View view) {
+                scanReset();
             }
-        };
-        getOnBackPressedDispatcher().addCallback(this, callback);
-        resetButton.setOnClickListener(view -> scanReset());
+        });
 
         if (checkPermissions()) {
             startCamera();
@@ -219,8 +209,6 @@ public class Scan extends AppCompatActivity {
             lastErrorCode = Util.verify(scrambledCube);
             if (lastErrorCode == 0) {
                 return new Solver().solution(scrambledCube, 21, 100000000, 10000, Solver.APPEND_LENGTH);
-            } else {
-                // TODO: this cube is not solvable
             }
             return null;
         }

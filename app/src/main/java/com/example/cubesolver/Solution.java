@@ -3,6 +3,7 @@ package com.example.cubesolver;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -66,12 +67,19 @@ public class Solution extends AppCompatActivity {
                 if (status != TextToSpeech.ERROR) {
                     // Language
                     textToSpeech.setLanguage(Locale.ENGLISH);
-                    // Pitch
-                    float pitch = 0.85f;
+//                    // Pitch
+//                    float pitch = 0.85f;
+//                    textToSpeech.setPitch(pitch);
+//                    // Speed
+//                    float speechRate = 1.45f;
+//                    textToSpeech.setSpeechRate(speechRate);
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
+                    float pitch = sharedPreferences.getFloat("pitch", 0.85f);
+                    float rate = sharedPreferences.getFloat("rate", 1.45f);
                     textToSpeech.setPitch(pitch);
-                    // Speed
-                    float speechRate = 1.45f;
-                    textToSpeech.setSpeechRate(speechRate);
+                    textToSpeech.setSpeechRate(rate);
+
                 }
             }
         });

@@ -14,10 +14,16 @@
         android:theme="@style/Theme.CubeSolver"
         tools:targetApi="31">
         <activity
+            android:name=".History"
+            android:exported="false" />
+        <activity
+            android:name=".Settings"
+            android:exported="false" />
+        <activity
             android:name=".Result"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Solution"
             android:exported="false" />
         <activity
             android:name=".Invalid"
@@ -26,7 +32,7 @@
             android:name=".Scan"
             android:exported="false" />
         <activity
-            android:name=".Solution"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

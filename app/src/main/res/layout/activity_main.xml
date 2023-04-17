@@ -20,6 +20,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/img_btn_popup_menu"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/more"
+        android:scaleType="fitCenter"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="5dp"
+        android:contentDescription="This is a popup menu"/>
+
+
     <ImageView
         android:id="@+id/img_home_image"
         android:layout_width="260dp"
