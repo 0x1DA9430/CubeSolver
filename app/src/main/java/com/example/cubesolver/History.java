@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -26,9 +27,13 @@ public class History extends AppCompatActivity {
         Map<String, String> sortedResultsHistory = sortResultsByDateTime(resultsHistory);
         LinearLayout historyContainer = findViewById(R.id.ll_history_container);
 
-        for (Map.Entry<String, String> entry : resultsHistory.entrySet()) {
+        // Find the minimum result
+        String minResult = Collections.min(sortedResultsHistory.values());
+
+        for (Map.Entry<String, String> entry : sortedResultsHistory.entrySet()) {
             String dateTime = entry.getKey();
             String result = entry.getValue();
+            boolean isBest = result.equals(minResult);
 
             TextView dateTimeTextView = new TextView(this);
             dateTimeTextView.setText(dateTime);
@@ -58,9 +63,24 @@ public class History extends AppCompatActivity {
             dateTimeTextView.setLayoutParams(dateTimeLayoutParams);
             resultTextView.setLayoutParams(resultLayoutParams);
 
-            // Add Date/Time TextView and Result TextView to rowLayout
+
+            // Add Date/Time TextView
             rowLayout.addView(dateTimeTextView);
+            // Add blue border if it's the best result
+            if (isBest) {
+                rowLayout.setBackgroundColor(Color.rgb(232, 245, 255));
+                rowLayout.setPadding(0, 0, 0, 10);
+                TextView bestTextView = new TextView(this);
+                bestTextView.setText("Best!");
+                bestTextView.setTextSize(14);
+                bestTextView.setTextColor(Color.rgb(115, 187, 243));
+                bestTextView.setTypeface(null, Typeface.BOLD);
+                bestTextView.setGravity(Gravity.END | Gravity.TOP);
+                rowLayout.addView(bestTextView);
+            }
+            // Add Result TextView
             rowLayout.addView(resultTextView);
+
 
             // Add a row and a divider
             historyContainer.addView(rowLayout);

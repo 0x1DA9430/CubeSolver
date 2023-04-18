@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -26,7 +27,26 @@ public class Settings extends AppCompatActivity {
         seekBarPitchValue = findViewById(R.id.seekBar_pitch_value);
         seekBarRateValue = findViewById(R.id.seekBar_rate_value);
 
+        /* General */
+        //Set up theme spinner
+        Spinner themeSpinner = findViewById(R.id.theme_spinner);
+        ArrayAdapter<CharSequence> themeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.theme_options, android.R.layout.simple_spinner_item);
+        themeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        themeSpinner.setAdapter(themeAdapter);
+        int defaultThemePosition = themeAdapter.getPosition("Light");
+        themeSpinner.setSelection(defaultThemePosition);
 
+        // Set up app_language_spinner
+        Spinner appLanguageSpinner = findViewById(R.id.app_language_spinner);
+        ArrayAdapter<CharSequence> appLanguageAdapter = ArrayAdapter.createFromResource(this,
+                R.array.app_language_options, android.R.layout.simple_spinner_item);
+        appLanguageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        appLanguageSpinner.setAdapter(appLanguageAdapter);
+        int defaultAppLanguagePosition = appLanguageAdapter.getPosition("English (UK)");
+        appLanguageSpinner.setSelection(defaultAppLanguagePosition);
+
+        /* Text to Speech */
         // Get and set current pitch and rate values
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         float currentPitch = sharedPreferences.getFloat("pitch", 0.85f);
@@ -81,15 +101,6 @@ public class Settings extends AppCompatActivity {
         speechLanguageSpinner.setAdapter(speechLanguageAdapter);
         int defaultSpeechLanguagePosition = speechLanguageAdapter.getPosition("English (UK)");
         speechLanguageSpinner.setSelection(defaultSpeechLanguagePosition);
-
-        // Set up app_language_spinner
-        Spinner appLanguageSpinner = findViewById(R.id.app_language_spinner);
-        ArrayAdapter<CharSequence> appLanguageAdapter = ArrayAdapter.createFromResource(this,
-                R.array.app_language_options, android.R.layout.simple_spinner_item);
-        appLanguageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        appLanguageSpinner.setAdapter(appLanguageAdapter);
-        int defaultAppLanguagePosition = appLanguageAdapter.getPosition("English (UK)");
-        appLanguageSpinner.setSelection(defaultAppLanguagePosition);
 
     }
 }

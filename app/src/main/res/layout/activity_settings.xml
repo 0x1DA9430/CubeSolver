@@ -19,6 +19,79 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+<!--    general -->
+    <TextView
+        android:id="@+id/tv_general"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="General"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/second_title_text_size"
+        app:layout_constraintTop_toBottomOf="@+id/tv_settings_title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="21dp"/>
+
+
+    <TextView
+        android:id="@+id/tv_theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Theme"
+        android:textColor="@color/black"
+        android:textSize="@dimen/larger_content_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_general"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"/>
+
+    <Spinner
+        android:id="@+id/theme_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:contentDescription="Select app language"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_theme"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_app_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_app_language"
+        android:textColor="@color/black"
+        android:textSize="@dimen/larger_content_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_theme"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"/>
+
+    <Spinner
+        android:id="@+id/app_language_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_app_language"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Select app language"
+        android:layout_marginEnd="5dp"/>
+
+<!--    TTS -->
+    <TextView
+        android:id="@+id/tv_tts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Text to Speech"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/second_title_text_size"
+        app:layout_constraintTop_toBottomOf="@+id/tv_app_language"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="21dp"/>
+
+
     <TextView
         android:id="@+id/tv_pitch"
         android:layout_width="wrap_content"
@@ -27,10 +100,9 @@
         android:text="@string/settings_pitch"
         android:textColor="@color/black"
         android:textSize="@dimen/larger_content_text_size"
-        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_settings_title"
-        android:layout_marginTop="80dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_tts"
+        android:layout_marginTop="20dp"/>
 
     <SeekBar
         android:id="@+id/seekBar_pitch"
@@ -48,6 +120,7 @@
         app:layout_constraintBottom_toBottomOf="@id/seekBar_pitch"
         android:layout_marginStart="5dp"/>
 
+
     <TextView
         android:id="@+id/tv_rate"
         android:layout_width="wrap_content"
@@ -56,10 +129,9 @@
         android:text="@string/speech_rate"
         android:textColor="@color/black"
         android:textSize="@dimen/larger_content_text_size"
-        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_pitch"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="20dp"/>
 
     <SeekBar
         android:id="@+id/seekBar_rate"
@@ -77,6 +149,7 @@
         app:layout_constraintBottom_toBottomOf="@id/seekBar_rate"
         android:layout_marginStart="5dp"/>
 
+
     <TextView
         android:id="@+id/tv_speech_language"
         android:layout_width="wrap_content"
@@ -84,11 +157,10 @@
         android:text="@string/settings_speech_language"
         android:textColor="@color/black"
         android:textSize="@dimen/larger_content_text_size"
-        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_rate"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="20dp"/>
 
     <Spinner
         android:id="@+id/speech_language_spinner"
@@ -97,30 +169,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/tv_speech_language"
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="Select speech language"
-        android:layout_marginEnd="5dp"/>
+        android:layout_marginEnd="5dp" />
 
 
-    <TextView
-        android:id="@+id/tv_app_language"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/settings_app_language"
-        android:textColor="@color/black"
-        android:textSize="@dimen/larger_content_text_size"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_speech_language"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="40dp"/>
-
-    <Spinner
-        android:id="@+id/app_language_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_app_language"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="Select app language"
-        android:layout_marginEnd="5dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

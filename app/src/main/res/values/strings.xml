@@ -35,6 +35,12 @@
     <string name="settings_app_language">App Language</string>
 
     <!-- Spinner -->
+    <string-array name="theme_options">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>System</item>
+    </string-array>
+
     <string-array name="speech_language_options">
         <item>English (UK)</item>
         <item>Option 2</item>

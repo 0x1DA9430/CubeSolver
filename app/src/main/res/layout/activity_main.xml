@@ -22,11 +22,11 @@
 
     <ImageButton
         android:id="@+id/img_btn_popup_menu"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="50dp"
+        android:layout_height="55dp"
         android:src="@drawable/more"
         android:scaleType="fitCenter"
-        android:padding="5dp"
+        android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/white"
