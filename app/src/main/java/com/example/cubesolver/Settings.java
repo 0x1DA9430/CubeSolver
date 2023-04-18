@@ -73,30 +73,21 @@ public class Settings extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
-        // 设置 speech_language_spinner 的适配器和默认值
+        // Set up speech_language_spinner
         Spinner speechLanguageSpinner = findViewById(R.id.speech_language_spinner);
-
         ArrayAdapter<CharSequence> speechLanguageAdapter = ArrayAdapter.createFromResource(this,
                 R.array.speech_language_options, android.R.layout.simple_spinner_item);
-
         speechLanguageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         speechLanguageSpinner.setAdapter(speechLanguageAdapter);
-
         int defaultSpeechLanguagePosition = speechLanguageAdapter.getPosition("English (UK)");
         speechLanguageSpinner.setSelection(defaultSpeechLanguagePosition);
 
-
-        // 设置 app_language_spinner 的适配器和默认值
+        // Set up app_language_spinner
         Spinner appLanguageSpinner = findViewById(R.id.app_language_spinner);
-
         ArrayAdapter<CharSequence> appLanguageAdapter = ArrayAdapter.createFromResource(this,
                 R.array.app_language_options, android.R.layout.simple_spinner_item);
-
         appLanguageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         appLanguageSpinner.setAdapter(appLanguageAdapter);
-
         int defaultAppLanguagePosition = appLanguageAdapter.getPosition("English (UK)");
         appLanguageSpinner.setSelection(defaultAppLanguagePosition);
 

@@ -48,25 +48,24 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Scan extends AppCompatActivity {
-    /*** Fixed values ***/
     private static final String TAG = "Scan";
     final private int REQUEST_CODE_FOR_PERMISSIONS = 10;
     private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA"};
 
-    /*** Views ***/
     protected LinearProgressIndicator scanIndicator;
     protected ImageView imageView;
     private CubeView cubeView;
     private Button resetButton;
     private Button scanButton;
-    /*** For CameraX ***/
+
     private Camera camera;
     private ImageAnalysis imageAnalysis = null;
     final private ExecutorService cameraExecutor = Executors.newSingleThreadExecutor();
     /*** For Rubik's Cube Solver ***/
     final private Mat trainData = new Mat(6, 4, CV_32F);
     final private KNearest knn = KNearest.create();
-    /* For Color Detection ***/
+
+    // For Color Detection
     /***
      * Scan Order : Upper(0, Yellow) -> Right(1, Orange) -> Front(2, Green) -> Down(3, White) -> Left(4, Red) -> Back(5, Blue)
      */
@@ -206,20 +205,6 @@ public class Scan extends AppCompatActivity {
         @Override
         protected void onPostExecute(String moves) {
             if (lastErrorCode == 0) {
-//                new MaterialAlertDialogBuilder(Scan.this)
-//                        .setTitle(R.string.solved_dialog_title)
-//                        .setMessage(getString(R.string.solved_dialog_msg_prefix) + "\n" + moves)
-//                        .setPositiveButton(R.string.solved_dialog_positive, null)
-//                        .setNeutralButton(R.string.solved_dialog_animation, (dialog, i) -> {
-//                            String solution = moves.substring(0, moves.indexOf('(') - 1);
-//                            Uri webpage = ImageProcess.generateAnimationLink(solution);
-//                            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-//                            Log.i(TAG, "Start Animation");
-//                            startActivity(intent);
-//                        })
-//                        .setCancelable(false)
-//                        .show();
-
                 // Jump to `solution` activity
                 Intent intent = new Intent(Scan.this, Solution.class);
                 intent.putExtra("solution", moves);
