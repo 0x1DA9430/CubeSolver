@@ -33,8 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/img_guidance"
         app:layout_constraintTop_toBottomOf="@+id/tv_solution_title"
-        android:layout_marginTop="25dp"/>
-
+        android:layout_marginTop="20dp"/>
 
     <ImageView
         android:id="@+id/img_guidance"
@@ -116,7 +115,6 @@
         android:layout_marginBottom="25dp"
         android:layout_marginEnd="15dp"/>
 
-
     <Button
         android:id="@+id/btn_next_step"
         android:layout_width="wrap_content"
@@ -128,6 +126,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_solution_step"
         app:layout_constraintBottom_toTopOf="@id/btn_finish"
         android:layout_marginTop="10dp"/>
+
 
     <Button
         android:id="@+id/btn_finish"

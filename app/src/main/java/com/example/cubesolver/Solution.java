@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
@@ -15,8 +16,11 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
 import android.os.Handler;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -56,6 +60,7 @@ public class Solution extends AppCompatActivity {
         timerTextView = findViewById(R.id.tv_timer);
         finishButton = findViewById(R.id.btn_finish);
 
+
         // Start the timer
         handler = new Handler();
         startTime = SystemClock.elapsedRealtime();
@@ -92,14 +97,23 @@ public class Solution extends AppCompatActivity {
         });
 
 
-        // Get the solution from the previous activity
-        receivedIntent = getIntent();
-        String moves = receivedIntent.getStringExtra("solution");
-//        String moves = "R L U D F B  R' L' U'  D' F'  B' R2 L2  U2  D2 F2 B2(14f)";
+//        // Get the solution from the previous activity
+//        receivedIntent = getIntent();
+//        String moves = receivedIntent.getStringExtra("solution");
+
+        String moves = "R L U D F B  R' L' U'  D' F'  B' R2 L2  U2  D2 F2 B2(14f)";
 
         moves = moves.substring(0, moves.indexOf('(') - 1); // Remove the unnecessary part
         String[] movesArray = moves.split("\\s+");
         moves = String.join("  ", movesArray); // Remove the unnecessary spaces
+
+//        // Load WebView
+//        private WebView webView;
+//        webView = findViewById(R.id.webview);
+//        WebSettings webSettings = webView.getSettings();
+//        webSettings.setJavaScriptEnabled(true);
+//        String iframeUrl = generateCubeLink(moves);
+//        webView.loadUrl(iframeUrl);
 
         // Display the solution
         solution = findViewById(R.id.tv_solution);
@@ -269,4 +283,20 @@ public class Solution extends AppCompatActivity {
                 .setNegativeButton("No", null)
                 .show();
     }
+
+
+//    // 3D Cube Link Generator
+//    static public String generateCubeLink(String solution) {
+//        String url = "https://ruwix.com/widget/3d/?";
+//        url += String.format("&alg=%s", Uri.encode(solution));
+//        url += String.format("&hover=%s" , "1");
+//        url += String.format("&speed=%s" , "1000");
+//        url += String.format("&flags=%s" , "showalg");
+//        url += String.format("&colors=%s" , Uri.encode("U:y L:r F:g R:o B:b D:w", ":"));
+//        url += String.format("&algdisplay=%s" , "rotations");
+//
+//        url = url.replace("'", "%27");
+//
+//        return url;
+//    }
 }

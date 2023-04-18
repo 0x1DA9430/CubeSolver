@@ -31,13 +31,28 @@
     <string name="settings_language">Language</string>
     <string name="settings_pitch">Pitch</string>
     <string name="speech_rate">Speech Rate</string>
-    <string name="settings_speech_language">Speech Language                      English(UK)</string>
-    <string name="settings_app_language">App Language                            English(UK)</string>
+    <string name="settings_speech_language">Speech Language</string>
+    <string name="settings_app_language">App Language</string>
+
+    <!-- Spinner -->
+    <string-array name="speech_language_options">
+        <item>English (UK)</item>
+        <item>Option 2</item>
+        <item>Option 3</item>
+    </string-array>
+
+    <string-array name="app_language_options">
+        <item>English (UK)</item>
+        <item>Option 2</item>
+        <item>Option 3</item>
+    </string-array>
+
 
     <!-- History -->
     <string name="history_title">History</string>
     <string name="history_date_time_title">Date/Time</string>
     <string name="history_result_title">Result (mm:ss:ms)</string>
+
 
 
 

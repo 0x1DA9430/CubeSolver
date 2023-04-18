@@ -148,24 +148,5 @@ public class ImageProcess {
         assert false;
         return null;
     }
-
-    // 生成魔方动画链接。外部网站
-    static public Uri generateAnimationLink(String solution) {
-        String baseUrl = "https://ruwix.com/widget/3d/?";
-        String url = baseUrl + String.format("label=%s", "RubikCubeSolver");
-        url += String.format("&alg=%s", Uri.encode(solution));
-        // url += String.format("&colored=%s" , "*");
-        url += String.format("&hover=%s" , "4");
-        url += String.format("&speed=%s" , "1000");
-        url += String.format("&flags=%s" , "showalg");
-        url += String.format("&colors=%s" , Uri.encode("U:y L:r F:g R:o B:b D:w", ":"));
-        url += String.format("&pov=%s" , "Ufr");
-        url += String.format("&algdisplay=%s" , "rotations");
-
-        url = url.replace("'", "%27");
-
-        Log.i(TAG, "url : " + url);
-        return Uri.parse(url);
-    }
 }
 

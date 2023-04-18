@@ -224,7 +224,6 @@ public class Scan extends AppCompatActivity {
                 Intent intent = new Intent(Scan.this, Solution.class);
                 intent.putExtra("solution", moves);
                 startActivity(intent);
-
                 scanReset();
             } else {
                 // Jump to 'invalid' activity
@@ -320,7 +319,6 @@ public class Scan extends AppCompatActivity {
                 for (int j = 0; j < 3; j++) {
                     Imgproc.putText(matOutput, ImageProcess.colorLabel[detectedColor[i][j]], new Point(startX + boxLen * i, startY + boxLen * (j + 1)), 2, 3, new Scalar(ImageProcess.colorData[detectedColor[i][j]]));
                     Imgproc.rectangle(matOutput, new Rect(startX + boxLen * i, startY + boxLen * j, boxLen, boxLen), new Scalar(255, 0, 0), 2);
-                    Log.v(TAG, "[analyze] (" + i + ", " + j + ") = " + detectedColor[i][j]);
                 }
             }
 
