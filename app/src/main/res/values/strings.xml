@@ -47,13 +47,13 @@
     </string-array>
 
     <string-array name="speech_language_options">
-        <item>English(UK)</item>
+        <item>English (UK)</item>
         <item>Option 2</item>
         <item>Option 3</item>
     </string-array>
 
     <string-array name="app_language_options">
-        <item>English(UK)</item>
+        <item>English (UK)</item>
         <item>Option 2</item>
         <item>Option 3</item>
     </string-array>
