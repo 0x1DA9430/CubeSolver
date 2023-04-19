@@ -20,7 +20,7 @@ public class Solver {
     protected static int MIN_P1LENGTH_PRE = 7;
     protected static int MAX_DEPTH2 = 12;
 
-    static boolean inited = false;
+    static boolean initialised = false;
 
     protected int[] move = new int[31];
 
@@ -28,7 +28,7 @@ public class Solver {
     protected Coordinate[] nodeRL = new Coordinate[21];
     protected Coordinate[] nodeFB = new Coordinate[21];
 
-    protected long selfSym;
+    protected long selfSymmetry;
     protected int conjMask;
     protected int urfIdx;
     protected int length1;
@@ -42,7 +42,7 @@ public class Solver {
     protected int verbose;
     protected int valid1;
     protected boolean allowShorter = false;
-    protected Cubie cc = new Cubie();
+    protected Cubie cubieCube = new Cubie();
     protected Cubie[] urfCubie = new Cubie[6];
     protected Coordinate[] urfCoordinate = new Coordinate[6];
     protected Cubie[] phase1Cubie = new Cubie[21];
@@ -95,7 +95,10 @@ public class Solver {
     /**
      * Computes the solver string for a given cube.
      * 方法接受五个参数：魔方的面颜色表示、最大搜索深度、最大探测次数、最小探测次数和详细程度。
+     * The method accepts five parameters: the cube definition string, the maximum search depth, the maximum probe count, the minimum probe count and the verbose level.
      * 它首先验证输入的魔方面颜色表示是否有效，然后初始化搜索，并根据 verbose 参数的值选择相应的搜索方法（普通搜索或最优搜索）。
+     * It first verifies the validity of the cube definition string, then initializes the search,
+     * and then selects the appropriate search method (normal search or optimal search) according to the value of the verbose parameter.
      *
      * @param facelets is the cube definition string format.<br>
      *                 The names of the facelet positions of the cube:
@@ -161,51 +164,30 @@ public class Solver {
 
     protected void initSearch() {
         conjMask = (TRY_INVERSE ? 0 : 0x38) | (TRY_THREE_AXES ? 0 : 0x36);
-        selfSym = cc.selfSymmetry();
-        conjMask |= (selfSym >> 16 & 0xffff) != 0 ? 0x12 : 0;
-        conjMask |= (selfSym >> 32 & 0xffff) != 0 ? 0x24 : 0;
-        conjMask |= (selfSym >> 48 & 0xffff) != 0 ? 0x38 : 0;
-        selfSym &= 0xffffffffffffL;
+        selfSymmetry = cubieCube.selfSymmetry();
+        conjMask |= (selfSymmetry >> 16 & 0xffff) != 0 ? 0x12 : 0;
+        conjMask |= (selfSymmetry >> 32 & 0xffff) != 0 ? 0x24 : 0;
+        conjMask |= (selfSymmetry >> 48 & 0xffff) != 0 ? 0x38 : 0;
+        selfSymmetry &= 0xffffffffffffL;
         maxPreMoves = conjMask > 7 ? 0 : MAX_PRE_MOVES;
 
         for (int i = 0; i < 6; i++) {
-            urfCubie[i].copy(cc);
+            urfCubie[i].copy(cubieCube);
             urfCoordinate[i].setWithPrun(urfCubie[i], 20);
-            cc.URFConjugate();
+            cubieCube.URFConjugate();
             if (i % 3 == 2) {
-                cc.invCubieCube();
+                cubieCube.inverseCubieCube();
             }
         }
     }
 
-//    public synchronized String next(long probeMax, long probeMin, int verbose) {
-//        this.probe = 0;
-//        this.probeMax = probeMax;
-//        this.probeMin = Math.min(probeMin, probeMax);
-//        this.solution = null;
-//        this.isRec = (this.verbose & OPTIMAL_SOLUTION) == (verbose & OPTIMAL_SOLUTION);
-//        this.verbose = verbose;
-//        return (verbose & OPTIMAL_SOLUTION) == 0 ? search() : searchopt();
-//    }
-//
-//    public static boolean isInited() {
-//        return inited;
-//    }
-//
-//    public long numberOfProbes() {
-//        return probe;
-//    }
-//
-//    public int length() {
-//        return solLen;
-//    }
-
     public synchronized static void init() {
         Coordinate.init(true);
-        inited = true;
+        initialised = true;
     }
 
     // 检查输入的魔方面颜色表示是否有效。如果有效，将其转换为 Cubie 类型并返回验证结果。
+    // Check if the given cube definition string is valid. If so, the CubieCube representation of the cube is generated and returned
     int verify(String facelets) {
         int count = 0x000000;
         byte[] f = new byte[54];
@@ -233,11 +215,12 @@ public class Solver {
         if (count != 0x999999) {
             return -1;
         }
-        Util.toCubieCube(f, cc);
-        return cc.verify();
+        Util.toCubie(f, cubieCube);
+        return cubieCube.verify();
     }
 
     // 在搜索过程中的第一阶段生成预处理移动序列。
+    // Generate the pre-move sequence for the search in phase 1.
     protected int phase1PreMoves(int maxl, int lm, Cubie cc, int ssym) {
         preMoveLen = maxPreMoves - maxl;
         if (isRec ? depth1 == length1 - preMoveLen
@@ -270,10 +253,10 @@ public class Solver {
             if (isRec && m != preMoves[maxPreMoves - maxl] || (skipMoves & 1 << m) != 0) {
                 continue;
             }
-            Cubie.CornMult(Cubie.moveCube[m], cc, preMoveCubes[maxl]);
-            Cubie.EdgeMult(Cubie.moveCube[m], cc, preMoveCubes[maxl]);
+            Cubie.cornerMult(Cubie.moveCube[m], cc, preMoveCubes[maxl]);
+            Cubie.edgeMult(Cubie.moveCube[m], cc, preMoveCubes[maxl]);
             preMoves[maxPreMoves - maxl] = m;
-            int ret = phase1PreMoves(maxl - 1, m, preMoveCubes[maxl], ssym & (int) Cubie.moveCubeSym[m]);
+            int ret = phase1PreMoves(maxl - 1, m, preMoveCubes[maxl], ssym & (int) Cubie.moveCubeSymmetry[m]);
             if (ret == 0) {
                 return 0;
             }
@@ -282,9 +265,9 @@ public class Solver {
     }
 
     /**
-     * 执行实际的搜索过程。在循环中不断增加搜索长度，并在不同的轴上进行搜索。
-     * 调用 phase1PreMoves() 方法为第一阶段生成预处理移动序列。
-     * 如果找到解决方案，返回解决方案字符串；否则，返回错误信息。
+     * 执行实际的搜索过程。在循环中不断增加搜索长度，并在不同的轴上进行搜索。 Exhaustive search to find a solution. Add the moves on the solution(s) to solution and return the solution string. Return null if it cannot find a solution, or the user has interrupted the thread.
+     * 调用 phase1PreMoves() 方法为第一阶段生成预处理移动序列。 Invoke phase1PreMoves() to generate the pre-move sequence for phase 1.
+     * 如果找到解决方案，返回解决方案字符串；否则，返回错误信息。 If a solution is found, return the solution string; otherwise, return an error message.
      */
     protected String search() {
         for (length1 = isRec ? length1 : 0; length1 < solLen; length1++) {
@@ -293,7 +276,7 @@ public class Solver {
                 if ((conjMask & 1 << urfIdx) != 0) {
                     continue;
                 }
-                if (phase1PreMoves(maxPreMoves, -30, urfCubie[urfIdx], (int) (selfSym & 0xffff)) == 0) {
+                if (phase1PreMoves(maxPreMoves, -30, urfCubie[urfIdx], (int) (selfSymmetry & 0xffff)) == 0) {
                     return solution == null ? "Error 8" : solution.toString();
                 }
             }
@@ -303,6 +286,7 @@ public class Solver {
 
     /**
      * 用于初始化第二阶段的搜索过程，它首先检查是否达到了搜索的最大深度，然后执行一系列的状态更新，以便为实际搜索做好准备。
+     * Initialize phase 2 of the search. It checks if the probe limit is reached, updates the status and prepares for the next move generation.
      * @return 0: Found or Probe limit exceeded
      * 1: at least 1 + maxDep2 moves away, Try next power
      * 2: at least 2 + maxDep2 moves away, Try next axis
@@ -315,8 +299,8 @@ public class Solver {
         ++probe;
 
         for (int i = valid1; i < depth1; i++) {
-            Cubie.CornMult(phase1Cubie[i], Cubie.moveCube[move[i]], phase1Cubie[i + 1]);
-            Cubie.EdgeMult(phase1Cubie[i], Cubie.moveCube[move[i]], phase1Cubie[i + 1]);
+            Cubie.cornerMult(phase1Cubie[i], Cubie.moveCube[move[i]], phase1Cubie[i + 1]);
+            Cubie.edgeMult(phase1Cubie[i], Cubie.moveCube[move[i]], phase1Cubie[i + 1]);
         }
         valid1 = depth1;
 
@@ -355,11 +339,11 @@ public class Solver {
                 move[depth1 - 1] = Util.ud2std[m] * 2 - move[depth1 - 1];
 
                 p2mid = Coordinate.MPermMove[p2mid][m];
-                p2corn = Coordinate.CPermMove[p2corn][Cubie.SymMoveUD[p2csym][m]];
-                p2csym = Cubie.SymMult[p2corn & 0xf][p2csym];
+                p2corn = Coordinate.CPermMove[p2corn][Cubie.symmetryMoveUD[p2csym][m]];
+                p2csym = Cubie.symmetryMult[p2corn & 0xf][p2csym];
                 p2corn >>= 4;
-                p2edge = Coordinate.EPermMove[p2edge][Cubie.SymMoveUD[p2esym][m]];
-                p2esym = Cubie.SymMult[p2edge & 0xf][p2esym];
+                p2edge = Coordinate.EPermMove[p2edge][Cubie.symmetryMoveUD[p2esym][m]];
+                p2esym = Cubie.symmetryMult[p2edge & 0xf][p2esym];
                 p2edge >>= 4;
                 corni = Cubie.getPermSymInv(p2corn, p2csym, true);
                 edgei = Cubie.getPermSymInv(p2edge, p2esym, false);
@@ -368,13 +352,13 @@ public class Solver {
                 preMoves[preMoveLen - 1] = Util.ud2std[m] * 2 - preMoves[preMoveLen - 1];
 
                 p2mid = Cubie.MPermInv[Coordinate.MPermMove[Cubie.MPermInv[p2mid]][m]];
-                p2corn = Coordinate.CPermMove[corni >> 4][Cubie.SymMoveUD[corni & 0xf][m]];
-                corni = p2corn & ~0xf | Cubie.SymMult[p2corn & 0xf][corni & 0xf];
+                p2corn = Coordinate.CPermMove[corni >> 4][Cubie.symmetryMoveUD[corni & 0xf][m]];
+                corni = p2corn & ~0xf | Cubie.symmetryMult[p2corn & 0xf][corni & 0xf];
                 p2corn = Cubie.getPermSymInv(corni >> 4, corni & 0xf, true);
                 p2csym = p2corn & 0xf;
                 p2corn >>= 4;
-                p2edge = Coordinate.EPermMove[edgei >> 4][Cubie.SymMoveUD[edgei & 0xf][m]];
-                edgei = p2edge & ~0xf | Cubie.SymMult[p2edge & 0xf][edgei & 0xf];
+                p2edge = Coordinate.EPermMove[edgei >> 4][Cubie.symmetryMoveUD[edgei & 0xf][m]];
+                edgei = p2edge & ~0xf | Cubie.symmetryMult[p2edge & 0xf][edgei & 0xf];
                 p2edge = Cubie.getPermSymInv(edgei >> 4, edgei & 0xf, false);
                 p2esym = p2edge & 0xf;
                 p2edge >>= 4;
@@ -391,17 +375,19 @@ public class Solver {
 
     /**
      * 用于初始化第二阶段的具体搜索步骤。它接受一组表示当前状态的参数，并计算相应的剪枝值。
+     * Use for init phase2 search. It accept a set of parameters to represent current status and calculate pruning value.
      * 如果剪枝值大于最大深度，则直接返回，否则进行实际的搜索。
+     * If pruning value is larger than max depth, return directly, otherwise do real search.
      */
     protected int initPhase2(int p2corn, int p2csym, int p2edge, int p2esym, int p2mid, int edgei, int corni) {
         int prun = Math.max(
                 Coordinate.getPruning(Coordinate.EPermCCombPPrun,
-                        (edgei >> 4) * Coordinate.N_COMB + Coordinate.CCombPConj[Cubie.Perm2CombP[corni >> 4] & 0xff][Cubie.SymMultInv[edgei & 0xf][corni & 0xf]]),
+                        (edgei >> 4) * Coordinate.NUM_COMB + Coordinate.CCombPConj[Cubie.Perm2CombP[corni >> 4] & 0xff][Cubie.symmetryMultInverse[edgei & 0xf][corni & 0xf]]),
                 Math.max(
                         Coordinate.getPruning(Coordinate.EPermCCombPPrun,
-                                p2edge * Coordinate.N_COMB + Coordinate.CCombPConj[Cubie.Perm2CombP[p2corn] & 0xff][Cubie.SymMultInv[p2esym][p2csym]]),
+                                p2edge * Coordinate.NUM_COMB + Coordinate.CCombPConj[Cubie.Perm2CombP[p2corn] & 0xff][Cubie.symmetryMultInverse[p2esym][p2csym]]),
                         Coordinate.getPruning(Coordinate.MCPermPrun,
-                                p2corn * Coordinate.N_MPERM + Coordinate.MPermConj[p2mid][p2csym])));
+                                p2corn * Coordinate.NUM_MPERM + Coordinate.MPermConj[p2mid][p2csym])));
 
         if (prun > maxDep2) {
             return prun - maxDep2;
@@ -418,10 +404,10 @@ public class Solver {
             solution = new Util.Solution();
             solution.setArgs(verbose, urfIdx, depth1);
             for (int i = 0; i < depth1 + depth2; i++) {
-                solution.appendSolMove(move[i]);
+                solution.appendSolutionMove(move[i]);
             }
             for (int i = preMoveLen - 1; i >= 0; i--) {
-                solution.appendSolMove(preMoves[i]);
+                solution.appendSolutionMove(preMoves[i]);
             }
             solLen = solution.length;
         }
@@ -435,6 +421,7 @@ public class Solver {
 
     /**
      * 在第一阶段搜索中，此方法根据当前节点的剪枝值和最大搜索深度，使用深度优先搜索确定解决方案的第一部分。
+     * In phase1 search, this method use depth first search to determine the first part of solution according to pruning value of current node and max search depth.
      * @return 0: Found or Probe limit exceeded
      * 1: Try Next Power
      * 2: Try Next Axis
@@ -465,7 +452,7 @@ public class Solver {
                     continue;
                 }
 
-                int prun = nodeUD[maxl].doMovePrun(node, m, true);
+                int prun = nodeUD[maxl].movePrun(node, m, true);
                 if (prun > maxl) {
                     break;
                 } else if (prun == maxl) {
@@ -473,7 +460,7 @@ public class Solver {
                 }
 
                 if (USE_CONJ_PRUN) {
-                    prun = nodeUD[maxl].doMovePrunConj(node, m);
+                    prun = nodeUD[maxl].movePrunConj(node, m);
                     if (prun > maxl) {
                         break;
                     } else if (prun == maxl) {
@@ -483,7 +470,7 @@ public class Solver {
 
                 move[depth1 - maxl] = m;
                 valid1 = Math.min(valid1, depth1 - maxl);
-                int ret = phase1(nodeUD[maxl], ssym & (int) Cubie.moveCubeSym[m], maxl - 1, axis);
+                int ret = phase1(nodeUD[maxl], ssym & (int) Cubie.moveCubeSymmetry[m], maxl - 1, axis);
                 if (ret == 0) {
                     return 0;
                 } else if (ret >= 2) {
@@ -496,7 +483,9 @@ public class Solver {
 
     /**
      * 这个方法搜索最优解，并根据给定的剪枝值和搜索限制，尝试找到一个在长度范围内的解决方案。
+     * This method search optimal solution and try to find a solution within length range according to given pruning value and search limit.
      * 如果找到解决方案，返回解决方案字符串；否则返回错误信息。
+     * If solution found, return solution string; otherwise return error message.
      */
     protected String searchopt() {
         int maxprun1 = 0;
@@ -517,7 +506,7 @@ public class Solver {
             Coordinate fb = urfCoordinate[2 + urfIdx];
 
             if (ud.prun <= length1 && rl.prun <= length1 && fb.prun <= length1
-                    && phase1opt(ud, rl, fb, selfSym, length1, -1) == 0) {
+                    && phase1opt(ud, rl, fb, selfSymmetry, length1, -1) == 0) {
                 return solution == null ? "Error 8" : solution.toString();
             }
         }
@@ -526,6 +515,7 @@ public class Solver {
 
     /**
      * 此方法在搜索的第一阶段使用深度优先搜索，但是针对UD、RL和FB轴进行了优化。它还根据搜索深度和剪枝值来控制搜索过程。
+     * This method use depth first search in phase1 search, but optimized for UD, RL and FB axis. It also control search process by search depth and pruning value.
      * @return 0: Found or Probe limit exceeded
      * 1: Try Next Power
      * 2: Try Next Axis
@@ -552,8 +542,8 @@ public class Solver {
                 }
 
                 // UD Axis
-                int prun_ud = Math.max(nodeUD[maxl].doMovePrun(ud, m, false),
-                        USE_CONJ_PRUN ? nodeUD[maxl].doMovePrunConj(ud, m) : 0);
+                int prun_ud = Math.max(nodeUD[maxl].movePrun(ud, m, false),
+                        USE_CONJ_PRUN ? nodeUD[maxl].movePrunConj(ud, m) : 0);
                 if (prun_ud > maxl) {
                     break;
                 } else if (prun_ud == maxl) {
@@ -563,8 +553,8 @@ public class Solver {
                 // RL Axis
                 m = Cubie.urfMove[2][m];
 
-                int prun_rl = Math.max(nodeRL[maxl].doMovePrun(rl, m, false),
-                        USE_CONJ_PRUN ? nodeRL[maxl].doMovePrunConj(rl, m) : 0);
+                int prun_rl = Math.max(nodeRL[maxl].movePrun(rl, m, false),
+                        USE_CONJ_PRUN ? nodeRL[maxl].movePrunConj(rl, m) : 0);
                 if (prun_rl > maxl) {
                     break;
                 } else if (prun_rl == maxl) {
@@ -574,8 +564,8 @@ public class Solver {
                 // FB Axis
                 m = Cubie.urfMove[2][m];
 
-                int prun_fb = Math.max(nodeFB[maxl].doMovePrun(fb, m, false),
-                        USE_CONJ_PRUN ? nodeFB[maxl].doMovePrunConj(fb, m) : 0);
+                int prun_fb = Math.max(nodeFB[maxl].movePrun(fb, m, false),
+                        USE_CONJ_PRUN ? nodeFB[maxl].movePrunConj(fb, m) : 0);
                 if (prun_ud == prun_rl && prun_rl == prun_fb && prun_fb != 0) {
                     prun_fb++;
                 }
@@ -590,7 +580,7 @@ public class Solver {
 
                 move[length1 - maxl] = m;
                 valid1 = Math.min(valid1, length1 - maxl);
-                int ret = phase1opt(nodeUD[maxl], nodeRL[maxl], nodeFB[maxl], ssym & Cubie.moveCubeSym[m], maxl - 1, axis);
+                int ret = phase1opt(nodeUD[maxl], nodeRL[maxl], nodeFB[maxl], ssym & Cubie.moveCubeSymmetry[m], maxl - 1, axis);
                 if (ret == 0) {
                     return 0;
                 }
@@ -601,7 +591,9 @@ public class Solver {
 
     /**
      * 在第二阶段搜索中，此方法确定解决方案的第二部分。它使用深度优先搜索，在给定的剪枝值和搜索深度限制下，试图找到一个解决方案。
+     * This method determine the second part of the solution in phase2 search. It use depth first search to try to find a solution within given pruning value and search depth limit.
      * 此方法会返回一个整数值，表示解决方案是否找到以及解决方案的长度。
+     * This method will return an integer value, indicating whether the solution is found and the length of the solution.
      */
     //-1: no solution found
     // X: solution with X moves shorter than expectation. Hence, the length of the solution is  depth - X
@@ -616,17 +608,17 @@ public class Solver {
                 continue;
             }
             int midx = Coordinate.MPermMove[mid][m];
-            int cornx = Coordinate.CPermMove[corn][Cubie.SymMoveUD[csym][m]];
-            int csymx = Cubie.SymMult[cornx & 0xf][csym];
+            int cornx = Coordinate.CPermMove[corn][Cubie.symmetryMoveUD[csym][m]];
+            int csymx = Cubie.symmetryMult[cornx & 0xf][csym];
             cornx >>= 4;
-            int edgex = Coordinate.EPermMove[edge][Cubie.SymMoveUD[esym][m]];
-            int esymx = Cubie.SymMult[edgex & 0xf][esym];
+            int edgex = Coordinate.EPermMove[edge][Cubie.symmetryMoveUD[esym][m]];
+            int esymx = Cubie.symmetryMult[edgex & 0xf][esym];
             edgex >>= 4;
             int edgei = Cubie.getPermSymInv(edgex, esymx, false);
             int corni = Cubie.getPermSymInv(cornx, csymx, true);
 
             int prun = Coordinate.getPruning(Coordinate.EPermCCombPPrun,
-                    (edgei >> 4) * Coordinate.N_COMB + Coordinate.CCombPConj[Cubie.Perm2CombP[corni >> 4] & 0xff][Cubie.SymMultInv[edgei & 0xf][corni & 0xf]]);
+                    (edgei >> 4) * Coordinate.NUM_COMB + Coordinate.CCombPConj[Cubie.Perm2CombP[corni >> 4] & 0xff][Cubie.symmetryMultInverse[edgei & 0xf][corni & 0xf]]);
             if (prun > maxl + 1) {
                 return maxl - prun + 1;
             } else if (prun >= maxl) {
@@ -635,9 +627,9 @@ public class Solver {
             }
             prun = Math.max(
                     Coordinate.getPruning(Coordinate.MCPermPrun,
-                            cornx * Coordinate.N_MPERM + Coordinate.MPermConj[midx][csymx]),
+                            cornx * Coordinate.NUM_MPERM + Coordinate.MPermConj[midx][csymx]),
                     Coordinate.getPruning(Coordinate.EPermCCombPPrun,
-                            edgex * Coordinate.N_COMB + Coordinate.CCombPConj[Cubie.Perm2CombP[cornx] & 0xff][Cubie.SymMultInv[esymx][csymx]]));
+                            edgex * Coordinate.NUM_COMB + Coordinate.CCombPConj[Cubie.Perm2CombP[cornx] & 0xff][Cubie.symmetryMultInverse[esymx][csymx]]));
             if (prun >= maxl) {
                 m += 0x42 >> m & 3 & (maxl - prun);
                 continue;

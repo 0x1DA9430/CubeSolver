@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Surface;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.AspectRatio;
@@ -90,19 +88,20 @@ public class Scan extends AppCompatActivity {
         resetButton = findViewById(R.id.reset_button);
         scanButton = findViewById(R.id.scan_button);
 
-
+        // Indicator
         scanIndicator.show();
         updateIndicator();
 
+        // Scan button
         scanButton.setOnClickListener(view -> {
-            // read detectedColor
+            // Read detectedColor
             synchronized (detectedColor) {
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
                         if (i == 1 && j == 1) {
                             scannedCube += ImageProcess.colorLabel[currentFaceIdx];
                         } else {
-                            scannedCube += ImageProcess.colorLabel[detectedColor[j][i]];  // hacky idx
+                            scannedCube += ImageProcess.colorLabel[detectedColor[j][i]];
                         }
                     }
                 }
@@ -135,7 +134,8 @@ public class Scan extends AppCompatActivity {
             }
         });
 
-        if (checkPermissions()) {
+        // Permission check and start camera
+        if (checkPermission()) {
             startCamera();
         } else {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_FOR_PERMISSIONS);
@@ -266,7 +266,7 @@ public class Scan extends AppCompatActivity {
         @Override
         public void analyze(@NonNull ImageProxy image) {
             // Create cv::mat(RGB888) from image(NV21)
-            Mat mat = ImageProcess.getMatFromImage(image);
+            Mat mat = ImageProcess.imageToMat(image);
 
             // Fix image rotation (it looks image in PreviewView is automatically fixed by CameraX???)
             mat = fixMatRotation(mat);
@@ -286,8 +286,8 @@ public class Scan extends AppCompatActivity {
             synchronized (detectedColor) {
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
-                        Mat color = ImageProcess.calcBoxColorAve(mat, startX + boxLen * i, startY + boxLen * j, boxLen);
-                        color = ImageProcess.calcMovingAveColor(aveColor[i][j], color, alpha);
+                        Mat color = ImageProcess.calcBoxAvgColor(mat, startX + boxLen * i, startY + boxLen * j, boxLen);
+                        color = ImageProcess.calcMovingAvgColor(aveColor[i][j], color, alpha);
                         aveColor[i][j] = color;
                         Mat res = new Mat();
                         knn.findNearest(color, 1, res);
@@ -296,19 +296,18 @@ public class Scan extends AppCompatActivity {
                 }
             }
 
-            // update cubeView
+            // Update cubeView
             cubeView.setFrontColors(detectedColor);
 
-            // draw frame and detected color
+            // Draw frame and detected color
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     Imgproc.putText(matOutput, ImageProcess.colorLabel[detectedColor[i][j]], new Point(startX + boxLen * i, startY + boxLen * (j + 1)), 2, 3, new Scalar(ImageProcess.colorData[detectedColor[i][j]]));
-                    Imgproc.rectangle(matOutput, new Rect(startX + boxLen * i, startY + boxLen * j, boxLen, boxLen), new Scalar(255, 0, 0), 2);
+                    Imgproc.rectangle(matOutput, new Rect(startX + boxLen * i, startY + boxLen * j, boxLen, boxLen), new Scalar(115, 187, 243), 2);
                 }
             }
 
-            // make output preview square
-            Log.v(TAG, "height : " + h + ", width : " + w);
+
             if (h > w) {
                 int bitmapStartX = 0;
                 int bitmapStartY = startY - startX;
@@ -356,7 +355,7 @@ public class Scan extends AppCompatActivity {
         }
     }
 
-    private boolean checkPermissions() {
+    private boolean checkPermission() {
         for (String permission : REQUIRED_PERMISSIONS) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                 return false;
@@ -369,7 +368,7 @@ public class Scan extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE_FOR_PERMISSIONS) {
-            if (checkPermissions()) {
+            if (checkPermission()) {
                 startCamera();
             } else {
                 Log.i(TAG, "[onRequestPermissionsResult] Failed to get permissions");

@@ -6,8 +6,6 @@ import static org.opencv.core.CvType.CV_8U;
 
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
-import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.camera.core.ImageProxy;
@@ -25,17 +23,16 @@ import java.util.Arrays;
 import java.util.List;
 
 /*
-* 转换魔方注释，替换颜色标签。
-* 计算图像中方框的平均颜色。
-* 计算两个颜色矩阵的移动平均值。
-* 使用 OpenCV 将 ImageProxy 对象转换为 Mat 对象。
-* 生成一个可视化魔方解决方案的 URI。
+* 转换魔方注释，替换颜色标签。Convert cube annotation, replace color label.
+* 计算图像中方框的平均颜色。 Calculate the average color of the box in the image.
+* 计算两个颜色矩阵的移动平均值。 Calculate the moving average value of two color matrices.
+* 使用 OpenCV 将 ImageProxy 对象转换为 Mat 对象。 Use OpenCV to convert ImageProxy object to Mat object.
+* 生成一个可视化魔方解决方案的 URI。 Generate a URI for a visualized cube solution.
 */
 
 public class ImageProcess {
-    private static final String TAG = "ImageProcess";
 
-    // color definition
+    // Color definition
     static final double[][] colorData = {
             {255, 215, 0, 0},    // Y
             {254, 80, 0, 0},     // O
@@ -67,7 +64,7 @@ public class ImageProcess {
             "Parity error: Two corners or two edges have to be exchanged.",  // -6
     };
 
-    // 转换魔方注释，替换扫描到的魔方的颜色标签。
+    // 转换魔方注释，替换扫描到的魔方的颜色标签。 Convert cube annotation, replace color label of scanned cube.
     static String convertCubeAnnotation(String scannedCube) {
         return scannedCube
                 .replace("Y", "U")
@@ -77,8 +74,8 @@ public class ImageProcess {
                 .replace("W", "D");
     }
 
-    // 计算图像中方框的平均颜色。
-    static Mat calcBoxColorAve(Mat mat, int boxX, int boxY, int boxLen) {
+    // 计算图像中方框的平均颜色。 Calculate the average color of the box in the image.
+    static Mat calcBoxAvgColor(Mat mat, int boxX, int boxY, int boxLen) {
         // extract box as sub matrix
         Mat boxMat = mat.submat(new Rect(boxX, boxY, boxLen, boxLen));
 
@@ -95,12 +92,11 @@ public class ImageProcess {
         for (int i = 0; i < mean.val.length; i++) {
             ret.put(0, i, mean.val[i]);
         }
-        Log.v(TAG, "mean(matrix) : " + ret.dump());
         return ret;
     }
 
-    // 计算两个颜色矩阵的移动平均值。
-    static Mat calcMovingAveColor(@Nullable Mat matPrev, Mat matCurrent, float alpha) {
+    // 计算两个颜色矩阵的移动平均值。 Calculate the moving average value of two color matrices.
+    static Mat calcMovingAvgColor(@Nullable Mat matPrev, Mat matCurrent, float alpha) {
         if (matPrev == null) {
             return matCurrent;
         }
@@ -113,10 +109,9 @@ public class ImageProcess {
         return ret;
     }
 
-    // 使用 OpenCV 将 ImageProxy 对象转换为 Mat 对象。
-    static public Mat getMatFromImage(ImageProxy image) {
-        /* Create cv::mat(RGB888) from image(NV21) */
-        /* https://stackoverflow.com/questions/30510928/convert-android-camera2-api-yuv-420-888-to-rgb */
+    // 使用 OpenCV 将 ImageProxy 对象转换为 Mat 对象。 Use OpenCV to convert ImageProxy object to Mat object.
+    static public Mat imageToMat(ImageProxy image) {
+        // Create cv::mat(RGB888) from image(NV21)
         if (image.getFormat() == ImageFormat.YUV_420_888) {
             ByteBuffer yBuffer = image.getPlanes()[0].getBuffer();
             ByteBuffer uBuffer = image.getPlanes()[1].getBuffer();
@@ -144,7 +139,6 @@ public class ImageProcess {
             Imgproc.cvtColor(bgra, rgb, Imgproc.COLOR_BGRA2BGR);
             return rgb;
         }
-        Log.e(TAG, "Unexpected format : " + image.getFormat());
         assert false;
         return null;
     }

@@ -12,18 +12,18 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /*
-* 用于在Android应用中显示一个3x3魔方，并根据需要更新其颜色。
-* 它继承自View类，重写了onDraw方法以便在视图上绘制魔方。
-* 在这个类中，魔方的前面有9个色块，四个侧面各有一个色块。
+* Used to display a 3x3 Rubik's Cube in an Android application and update its colors as needed.
+* It inherits from the View class and overrides the onDraw method to draw the Rubik's Cube on the view.
+* In this class, there are 9 color blocks on the front face of the Rubik's Cube and one color block on each of the four side faces.
 */
 
 public class CubeView extends View {
 
     private final Paint paint = new Paint();
     private Canvas canvas;
-    private String[][] frontColors = {{"X", "X", "X"}, {"X", "X", "X"}, {"X", "X", "X",}};  // 3x3 色块颜色
-    private String[] sideColors = {"X", "X", "X", "X",};    // 4个侧面色块颜色
-    final private int padding = 4;  // 色块之间的间距
+    private String[][] frontColors = {{"X", "X", "X"}, {"X", "X", "X"}, {"X", "X", "X",}};  // 3x3 block color
+    private String[] sideColors = {"X", "X", "X", "X",};    // top -> left -> down -> right
+    final private int padding = 4;  // padding between blocks
 
     public CubeView(Context context) {
         this(context, null);
@@ -38,8 +38,9 @@ public class CubeView extends View {
     }
 
     /*
-    * 这个方法在视图需要重新绘制时被调用。
-    * 它首先设置画布的背景颜色，然后计算绘制魔方色块的位置和尺寸，最后绘制前面的9个色块和四个侧面的色块。
+    * This method is called when the view needs to be redrawn.
+    * It first sets the background color of the canvas, then calculates the position and size of the Rubik's cube blocks to be drawn,
+    * and finally draws the front 9 color blocks and the four side color blocks.
     */
     @Override
     protected void onDraw(Canvas canvas) {
@@ -51,7 +52,7 @@ public class CubeView extends View {
         paint.setColor(Color.rgb(115, 187, 243));
         canvas.drawRect(0, 0, w, h, paint);
 
-        // calculate box point
+        // Calculate box point
         double cubeLen = min(w, h) * 0.8;
         int boxLen = (int) (cubeLen / 3);
         int startX, startY;
@@ -60,7 +61,7 @@ public class CubeView extends View {
 
         paint.setStrokeWidth(3);
 
-        // paint front color
+        // Paint front color
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 paint.setColor(getColor(frontColors[i][j]));
@@ -76,7 +77,7 @@ public class CubeView extends View {
             }
         }
 
-        // paint side color
+        // Paint side color
         int thickness = (int) (boxLen / 6);
         paint.setColor(getColor(sideColors[0]));
         int boxStartX, boxStartY;
@@ -97,7 +98,7 @@ public class CubeView extends View {
         canvas.drawRect(new Rect(boxStartX, boxStartY, boxStartX + thickness, boxStartY + boxLen), paint);  // Right
     }
 
-    // 根据颜色的标签返回颜色的RGB值，同时起到定义颜色的作用
+    // Define color by label
     private int getColor(String color) {
         assert color.length() == 1;
         switch (color) {
@@ -129,7 +130,7 @@ public class CubeView extends View {
                 colorsString[i][j] = ImageProcess.colorLabel[colors[i][j]];
             }
         }
-        setFrontColors(colorsString);  // 通知系统重新绘制视图
+        setFrontColors(colorsString);  // refresh
     }
 
     public void setFrontColors(String[][] colors) {

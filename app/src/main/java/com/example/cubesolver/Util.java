@@ -104,6 +104,8 @@ class Util {
     // Calculate the combination of n and k
     /*
     * Cnk 数组被用于 getComb 和 setComb 方法，这些方法分别用于获取和设置特定排列组合在数组中的索引。这对于将魔方的状态编码为整数并在搜索解决方案时处理排列组合非常有用。
+    * The Cnk array is used by the getComb and setComb methods, which are used to get and set the index of a specific permutation and combination in the array.
+    * This is useful for encoding the state of the cube as an integer and handling permutations and combinations when searching for solutions.
     * */
     static int[][] Cnk = new int[13][13];
     static String[] move2str = {
@@ -111,12 +113,18 @@ class Util {
             "D ", "D2", "D'", "L ", "L2", "L'", "B ", "B2", "B'"
     };
     static int[] ud2std = {Ux1, Ux2, Ux3, Rx2, Fx2, Dx1, Dx2, Dx3, Lx2, Bx2, Rx1, Rx3, Fx1, Fx3, Lx1, Lx3, Bx1, Bx3};
-    static int[] std2ud = new int[18];  //从标准魔方移动（std）到优化魔方移动（ud）的映射。
-    static int[] ckmv2bit = new int[11];    // (check move) 存储魔方移动的冲突信息。ckmv2bit[i] 的每个位表示在执行第 i 个优化移动之后是否可以立即执行第 j 个优化移动。如果位为1，表示不允许立即执行；位为0，表示允许立即执行。
+
+    // 从标准魔方移动（std）到优化魔方移动（ud）的映射。
+    // Mapping from standard cube move (std) to optimized cube move (ud)
+    static int[] std2ud = new int[18];
+    // (check move) 存储魔方移动的冲突信息。ckmv2bit[i] 的每个位表示在执行第 i 个优化移动之后是否可以立即执行第 j 个优化移动。如果位为1，表示不允许立即执行；位为0，表示允许立即执行。
+    // Store the conflict information of the cube move.
+    // Each bit of ckmv2bit[i] represents whether the jth optimized move can be executed immediately after the i-th optimized move is executed.
+    static int[] ckmv2bit = new int[11];
 
     static class Solution {
         int length = 0; // number of moves
-        int depth1 = 0; // IDA*算法中阶段1的解决方案长度。
+        int depth1 = 0; // IDA*算法中阶段1的解决方案长度。 The solution length of phase 1 in the IDA* algorithm
         int verbose = 0; // 0: no output, 1: output solution, 2: output solution and scramble
         int urfIdx = 0; // 0:URF, 1:UR, 2:UF, 3:UFR, 4:ULB, 5:Min2Phase
         int[] moves = new int[31];  // moves
@@ -132,7 +140,8 @@ class Util {
         }
 
         // 将给定的移动添加到解决方案中，并合并连续的相同轴上的移动
-        void appendSolMove(int curMove) {
+        // Add the given move to the solution and merge consecutive moves on the same axis
+        void appendSolutionMove(int curMove) {
             if (length == 0) {
                 moves[length++] = curMove;
                 return;
@@ -164,6 +173,7 @@ class Util {
         }
 
         // 生成解决方案的字符串表示
+        // Generate the string representation of the solution
         public String toString() {
             StringBuffer stringBuffer = new StringBuffer();
             int urf = (verbose & Solver.INVERSE_SOLUTION) != 0 ? (urfIdx + 3) % 6 : urfIdx;
@@ -182,15 +192,13 @@ class Util {
                     }
                 }
             }
-            if ((verbose & Solver.APPEND_LENGTH) != 0) {
-                stringBuffer.append("(").append(length).append("f)");
-            }
             return stringBuffer.toString();
         }
     }
 
     // Cubie 用每个块的位置和方向表示魔方的状态。
-    static void toCubieCube(byte[] faces, Cubie ccRet) {
+    // Cubie represents the state of the cube by the position and orientation of each block.
+    static void toCubie(byte[] faces, Cubie ccRet) {
         byte ori;   //orientation of cubie
         for (int i = 0; i < 8; i++) {
             ccRet.ca[i] = 0;
@@ -229,35 +237,15 @@ class Util {
         }
     }
 
-//    // FaceCube 通过每个面的颜色来表示魔方的状态。
-//    static String toFaceCube(Cubie cc) {
-//        char[] faceCube = new char[54];
-//        char[] ts = {'U', 'R', 'F', 'D', 'L', 'B'};
-//        for (int i = 0; i < 54; i++) {
-//            faceCube[i] = ts[i / 9];
-//        }
-//        for (byte c = 0; c < 8; c++) {
-//            int j = cc.ca[c] & 0x7;
-//            int ori = cc.ca[c] >> 3;
-//            for (byte n = 0; n < 3; n++) {
-//                faceCube[cornerFacelet[c][(n + ori) % 3]] = ts[cornerFacelet[j][n] / 9];
-//            }
-//        }
-//        for (byte e = 0; e < 12; e++) {
-//            int j = cc.ea[e] >> 1;
-//            int ori = cc.ea[e] & 1;
-//            for (byte n = 0; n < 2; n++) {
-//                faceCube[edgeFacelet[e][(n + ori) % 2]] = ts[edgeFacelet[j][n] / 9];
-//            }
-//        }
-//        return new String(faceCube);
-//    }
-
     /*
     * 计算魔方的排列奇偶性。
+    * Compute the permutation parity of the cube.
     * 在魔方求解中，奇偶性是一个重要的概念，它可以帮助我们了解魔方的状态是否有效，以及在求解过程中可能需要的步骤。
+    * In the cube solving, the parity is an important concept that can help us to know whether the cube state is valid or not, and the steps that may be needed in the solving process.
     * 例如，如果魔方的排列奇偶性为偶数，则魔方的状态是有效的，否则它是无效的。
+    * For example, if the permutation parity of the cube is even, then the state of the cube is valid, otherwise it is invalid.
     * idx，它表示我们要计算哪个部分的奇偶性。当idx等于0时，计算角块的排列奇偶性；当idx等于4时，计算棱块的排列奇偶性。
+    * idx, which represents which part of the parity we want to calculate. When idx equals 0, the permutation parity of the corner is calculated; when idx equals 4, the permutation parity of the edge is calculated.
     */
     static int getNParity(int idx, int n) {
         int p = 0;
@@ -277,6 +265,7 @@ class Util {
     }
 
     // setNPerm 和 getNPerm，用于处理魔方边缘（edge）和角落（corner）的置换（permutation）。
+    // setNPerm and getNPerm are used to handle the permutation of the cube edge and corner.
     static void setNPerm(byte[] arr, int idx, int n, boolean isEdge) {
         long val = 0xFEDCBA9876543210L;
         long extract = 0;
@@ -306,6 +295,7 @@ class Util {
     }
 
     // getComb 和 setComb，用于处理魔方边缘（edge）和角落（corner）的组合（combination）。
+    // getComb and setComb are used to handle the combination of the cube edge and corner.
     static int getComb(byte[] arr, int mask, boolean isEdge) {
         int end = arr.length - 1;
         int idxC = 0, r = 4;
@@ -336,15 +326,13 @@ class Util {
 
     /**
      * Check whether the cube definition string s represents a solvable cube.
-     *
-     * @param facelets is the cube definition string
-     * @return 0: Cube is solvable
-     *         -1: There is not exactly one facelet of each colour
-     *         -2: Not all 12 edges exist exactly once
-     *         -3: Flip error: One edge has to be flipped
-     *         -4: Not all 8 corners exist exactly once
-     *         -5: Twist error: One corner has to be twisted
-     *         -6: Parity error: Two corners or two edges have to be exchanged
+     *  0: Cube is solvable
+     * -1: There is not exactly one facelet of each colour
+     * -2: Not all 12 edges exist exactly once
+     * -3: Flip error: One edge has to be flipped
+     * -4: Not all 8 corners exist exactly once
+     * -5: Twist error: One corner has to be twisted
+     * -6: Parity error: Two corners or two edges have to be exchanged
      */
     public static int verify(String facelets) {
         return new Solver().verify(facelets);
@@ -364,6 +352,7 @@ class Util {
         }
         ckmv2bit[10] = 0;
         // 使用 Pascal's triangle（帕斯卡三角形）方法计算并填充 Cnk 数组。
+        // Use Pascal's triangle method to calculate and fill the Cnk array.
         for (int i = 0; i < 13; i++) {
             Cnk[i][0] = Cnk[i][i] = 1;
             for (int j = 1; j < i; j++) {

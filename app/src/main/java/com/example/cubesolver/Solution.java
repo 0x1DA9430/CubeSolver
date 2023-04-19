@@ -57,8 +57,6 @@ public class Solution extends AppCompatActivity {
     Button btnAutoPlay;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,11 +106,9 @@ public class Solution extends AppCompatActivity {
         String moves = receivedIntent.getStringExtra("solution");
 
         // For testing
-//        String moves = "R L U D F B  R' L' U'  D' F'  B' R2 L2  U2  D2 F2 B2(14f)";
-//        String moves = "R L U D F B (14f)";
+//        String moves = "R L U D F B  R' L' U'  D' F'  B' R2 L2  U2  D2 F2 B2";
+//        String moves = "R L U D F B";
 
-
-        moves = moves.substring(0, moves.indexOf('(') - 1); // Remove the unnecessary part
         String[] movesArray = moves.split("\\s+");
         moves = String.join("  ", movesArray); // Remove the unnecessary spaces
 
