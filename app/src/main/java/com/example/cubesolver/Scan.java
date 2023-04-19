@@ -109,7 +109,7 @@ public class Scan extends AppCompatActivity {
                 if (detectedColor[1][1] != currentFaceIdx && currentFaceIdx < 5) {
                     new MaterialAlertDialogBuilder(Scan.this)
                             .setTitle(R.string.right_face_dialog_title)
-                            .setMessage("Center color should be " + ImageProcess.colorName[currentFaceIdx] + ", instead of " + ImageProcess.colorName[detectedColor[1][1]] + ".")
+                            .setMessage("Center color should be " + ImageProcess.colorName[currentFaceIdx] + ".")
                             .setNegativeButton(R.string.right_face_dialog_negative, (dialogInterface, i) -> scanRollback())
                             .setPositiveButton(R.string.right_face_dialog_positive, null)
                             .setCancelable(false)
@@ -376,5 +376,11 @@ public class Scan extends AppCompatActivity {
                 this.finish();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cameraExecutor.shutdown();
     }
 }

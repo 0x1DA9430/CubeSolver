@@ -76,7 +76,7 @@
         android:layout_marginTop="20dp"/>
 
     <TextView
-        android:id="@+id/tv_explanation"
+        android:id="@+id/tv_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/details"
@@ -98,44 +98,60 @@
         android:textSize="@dimen/larger_content_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_explanation" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_details" />
 
     <ImageButton
         android:id="@+id/btn_speak"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/speak"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
         android:background="@drawable/blue_circle"
+        android:contentDescription="Speak"
         android:paddingLeft="12dp"
         android:paddingRight="8dp"
-        android:contentDescription="Speak"
         android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_next_step"
-        android:layout_marginBottom="25dp"
-        android:layout_marginEnd="15dp"/>
+        android:src="@drawable/speak"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_solution_step"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/btn_next_step"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_next_step"
-        android:textAllCaps="false"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/btn_finish"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_solution_step"
-        app:layout_constraintBottom_toTopOf="@id/btn_finish"
-        android:layout_marginTop="10dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_solution_step">
+
+        <Button
+            android:id="@+id/btn_next_step"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_next_step"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_auto_play"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="▷"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 
     <Button
         android:id="@+id/btn_finish"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginBottom="-6dp"
         android:text="@string/btn_finish"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="-6dp"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

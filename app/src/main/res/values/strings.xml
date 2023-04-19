@@ -23,7 +23,7 @@
 
     <!-- Result -->
     <string name="result_title">Congrats!</string>
-    <string name="btn_home">Home Page</string>
+    <string name="btn_home">Home</string>
     <string name="result_second_title">Cube Solved in</string>
 
     <!-- Settings -->
@@ -33,6 +33,11 @@
     <string name="speech_rate">Speech Rate</string>
     <string name="settings_speech_language">Speech Language</string>
     <string name="settings_app_language">App Language</string>
+    <string name="settings_general">General</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_tts">Text to Speech</string>
+    <string name="settings_auto_play">Auto Play</string>
+    <string name="settings_speed">Speed</string>
 
     <!-- Spinner -->
     <string-array name="theme_options">
@@ -60,19 +65,8 @@
     <string name="history_result_title">Result (mm:ss:ms)</string>
 
 
-
-
-    <!-- solved dialog -->
-    <string name="solved_dialog_title">Solved!!</string>
-    <string name="solved_dialog_msg_prefix">Top : Yellow, Front : Green.</string>
-    <string name="solved_dialog_positive">OK</string>
-    <string name="solved_dialog_animation">Animation</string>
-    <!-- invalid cube dialog -->
-    <string name="invalid_dialog_title">Invalid Cube…</string>
-    <string name="invalid_dialog_positive">RESET</string>
-    <string name="invalid_dialog_neutral">FIX</string>
     <!-- Right Face? dialog-->
-    <string name="right_face_dialog_title">Right Face?</string>
-    <string name="right_face_dialog_negative">RESCAN</string>
-    <string name="right_face_dialog_positive">YES</string>
+    <string name="right_face_dialog_title">Perhaps the Wrong Face</string>
+    <string name="right_face_dialog_negative">Rescan</string>
+    <string name="right_face_dialog_positive">Continue</string>
 </resources>

@@ -16,7 +16,8 @@ public class Settings extends AppCompatActivity {
     private SeekBar seekBarRate;
     private TextView seekBarPitchValue;
     private TextView seekBarRateValue;
-
+    SeekBar seekBarSpeed;
+    TextView seekBarSpeedValue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +27,8 @@ public class Settings extends AppCompatActivity {
         seekBarRate = findViewById(R.id.seekBar_rate);
         seekBarPitchValue = findViewById(R.id.seekBar_pitch_value);
         seekBarRateValue = findViewById(R.id.seekBar_rate_value);
+        seekBarSpeed = findViewById(R.id.seekBar_speed);
+        seekBarSpeedValue = findViewById(R.id.seekBar_speed_value);
 
         /* General */
         //Set up theme spinner
@@ -101,6 +104,38 @@ public class Settings extends AppCompatActivity {
         speechLanguageSpinner.setAdapter(speechLanguageAdapter);
         int defaultSpeechLanguagePosition = speechLanguageAdapter.getPosition("English (UK)");
         speechLanguageSpinner.setSelection(defaultSpeechLanguagePosition);
+
+
+        /* Auto play */
+        SharedPreferences sharedSpeedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
+        int speed = sharedSpeedPreferences.getInt("speed", -1);
+        if (speed == -1) {
+            speed = 75;
+        }
+        seekBarSpeed.setMax(100);
+        seekBarSpeed.setProgress(speed);
+        seekBarSpeedValue.setText(String.valueOf(speed));
+
+        seekBarSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekBarSpeedValue.setText(String.valueOf(progress));
+
+                // Speed to delay
+                int delay = (int) (9000 - 8000 * (progress / 100.0));
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("delay", delay);
+                editor.putInt("speed", progress); // Store the updated speed value
+                editor.apply();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
 
     }
 }

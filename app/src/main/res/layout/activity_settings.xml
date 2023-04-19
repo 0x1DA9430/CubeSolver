@@ -24,7 +24,7 @@
         android:id="@+id/tv_general"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="General"
+        android:text="@string/settings_general"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="@dimen/second_title_text_size"
@@ -38,7 +38,7 @@
         android:id="@+id/tv_theme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Theme"
+        android:text="@string/settings_theme"
         android:textColor="@color/black"
         android:textSize="@dimen/larger_content_text_size"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
-        android:contentDescription="Select app language"
+        android:contentDescription="Select app theme"
         app:layout_constraintBottom_toBottomOf="@+id/tv_theme"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -82,7 +82,7 @@
         android:id="@+id/tv_tts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Text to Speech"
+        android:text="@string/settings_tts"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="@dimen/second_title_text_size"
@@ -170,6 +170,48 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="Select speech language"
         android:layout_marginEnd="5dp" />
+
+<!--    Auto Play -->
+    <TextView
+        android:id="@+id/tv_auto_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_auto_play"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/second_title_text_size"
+        app:layout_constraintTop_toBottomOf="@+id/tv_speech_language"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="21dp"/>
+
+    <TextView
+        android:id="@+id/tv_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:text="@string/settings_speed"
+        android:textColor="@color/black"
+        android:textSize="@dimen/larger_content_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_auto_play"
+        android:layout_marginTop="20dp"/>
+
+    <SeekBar
+        android:id="@+id/seekBar_speed"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_speed"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/seekBar_speed_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/seekBar_speed"
+        app:layout_constraintBottom_toBottomOf="@id/seekBar_speed"
+        android:layout_marginStart="5dp"/>
 
 
 

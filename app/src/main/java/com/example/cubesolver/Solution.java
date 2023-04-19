@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -50,6 +53,10 @@ public class Solution extends AppCompatActivity {
         }
     };
     private TextToSpeech textToSpeech;
+    private boolean isAutoPlaying = false;
+    Button btnAutoPlay;
+
+
 
 
     @Override
@@ -59,7 +66,7 @@ public class Solution extends AppCompatActivity {
 
         timerTextView = findViewById(R.id.tv_timer);
         finishButton = findViewById(R.id.btn_finish);
-
+        btnAutoPlay = findViewById(R.id.btn_auto_play);
 
         // Start the timer
         handler = new Handler();
@@ -78,7 +85,6 @@ public class Solution extends AppCompatActivity {
                     float rate = sharedPreferences.getFloat("rate", 1.45f);
                     textToSpeech.setPitch(pitch);
                     textToSpeech.setSpeechRate(rate);
-
                 }
             }
         });
@@ -97,23 +103,19 @@ public class Solution extends AppCompatActivity {
         });
 
 
-//        // Get the solution from the previous activity
-//        receivedIntent = getIntent();
-//        String moves = receivedIntent.getStringExtra("solution");
+        // Get the solution from the previous activity
+        receivedIntent = getIntent();
+        String moves = receivedIntent.getStringExtra("solution");
 
-        String moves = "R L U D F B  R' L' U'  D' F'  B' R2 L2  U2  D2 F2 B2(14f)";
+        // For testing
+//        String moves = "R L U D F B  R' L' U'  D' F'  B' R2 L2  U2  D2 F2 B2(14f)";
+//        String moves = "R L U D F B (14f)";
+
 
         moves = moves.substring(0, moves.indexOf('(') - 1); // Remove the unnecessary part
         String[] movesArray = moves.split("\\s+");
         moves = String.join("  ", movesArray); // Remove the unnecessary spaces
 
-//        // Load WebView
-//        private WebView webView;
-//        webView = findViewById(R.id.webview);
-//        WebSettings webSettings = webView.getSettings();
-//        webSettings.setJavaScriptEnabled(true);
-//        String iframeUrl = generateCubeLink(moves);
-//        webView.loadUrl(iframeUrl);
 
         // Display the solution
         solution = findViewById(R.id.tv_solution);
@@ -132,6 +134,10 @@ public class Solution extends AppCompatActivity {
                 if (steps == 0) {
                     // Finished. Ban the user from clicking the button
                     view.setEnabled(false);
+                    // If auto playing, stop auto play
+                    if (isAutoPlaying) {
+                        isAutoPlaying = false;
+                    }
                 } else {
                     // Get the next step
                     int nextStepIndex = movesArray.length - steps;
@@ -252,6 +258,26 @@ public class Solution extends AppCompatActivity {
             }
         });
 
+        // Auto play
+        // Get the delay from SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
+        int delay = sharedPreferences.getInt("delay", 3000); // default value 3000 ms
+        btnAutoPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isAutoPlaying = !isAutoPlaying;
+                if (isAutoPlaying) {
+                    // Start auto play
+                    autoPlayNextStep(delay);
+                    btnAutoPlay.setBackgroundColor(Color.parseColor("#dd0d18"));
+                } else {
+                    // Stop auto play
+                    btnAutoPlay.setBackgroundColor(Color.parseColor("#73BBF3"));
+                }
+            }
+        });
+
+
     }
 
     // Release the TextToSpeech object resources
@@ -264,10 +290,54 @@ public class Solution extends AppCompatActivity {
         super.onDestroy();
     }
 
+
+    // Auto play
+    private void autoPlayNextStep(int delay) {
+        if (!isAutoPlaying) {
+            return;
+        }
+
+        Button btnNextStep = findViewById(R.id.btn_next_step);
+        ImageButton btnSpeak = findViewById(R.id.btn_speak);
+        Button finish = findViewById(R.id.btn_finish);
+
+        // Click the next step button
+        btnNextStep.performClick();
+        // Check if the next step is available
+        if (!btnNextStep.isEnabled()) {
+            // Stop auto play and finish
+            isAutoPlaying = false;
+            finish.performClick();
+            return;
+        }
+        // Delay 200ms and then click the speaker button
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                btnSpeak.performClick();
+            }
+        }, 200);
+
+        // Continue auto play with a delay
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                autoPlayNextStep(delay);
+            }
+        }, delay);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isAutoPlaying = false;
+        btnAutoPlay.setBackgroundColor(Color.parseColor("#73BBF3"));
+    }
+
     @Override
     public void onBackPressed() {
         // Sure to go back to MainActivity (Home Page)?
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
                 .setTitle("Sure to go back to Home Page?")
                 .setMessage("You will lose the current progress.")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -275,6 +345,8 @@ public class Solution extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         // Stop the timer
                         handler.removeCallbacks(timer);
+                        // kill solution activity
+                        finish();
                         // Go to the MainActivity
                         Intent intent = new Intent(Solution.this, MainActivity.class);
                         startActivity(intent);
@@ -284,8 +356,10 @@ public class Solution extends AppCompatActivity {
                 .show();
     }
 
+}
 
-//    // 3D Cube Link Generator
+
+//    // Web Cube Link
 //    static public String generateCubeLink(String solution) {
 //        String url = "https://ruwix.com/widget/3d/?";
 //        url += String.format("&alg=%s", Uri.encode(solution));
@@ -299,4 +373,3 @@ public class Solution extends AppCompatActivity {
 //
 //        return url;
 //    }
-}

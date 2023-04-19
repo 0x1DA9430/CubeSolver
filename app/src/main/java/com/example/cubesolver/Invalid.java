@@ -14,7 +14,6 @@ public class Invalid extends AppCompatActivity {
         setContentView(R.layout.activity_invalid);
 
         Button retry = findViewById(R.id.btn_retry);
-        // listen for clicks
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -22,5 +21,11 @@ public class Invalid extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Go back to Scan activity
+        finish();
     }
 }
