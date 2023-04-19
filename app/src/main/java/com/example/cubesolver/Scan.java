@@ -46,7 +46,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Scan extends AppCompatActivity {
-    private static final String TAG = "Scan";
     final private int REQUEST_CODE_FOR_PERMISSIONS = 10;
     private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA"};
 
@@ -243,7 +242,6 @@ public class Scan extends AppCompatActivity {
                     cameraProvider.unbindAll();
                     camera = cameraProvider.bindToLifecycle((LifecycleOwner) context, cameraSelector, imageAnalysis);
                 } catch (Exception e) {
-                    Log.e(TAG, "[startCamera] Use case binding failed", e);
                 }
             }
         }, ContextCompat.getMainExecutor(this));
