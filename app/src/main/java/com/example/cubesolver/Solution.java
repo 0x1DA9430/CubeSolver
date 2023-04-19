@@ -103,15 +103,10 @@ public class Solution extends AppCompatActivity {
             finishButton.performClick();
         }
 
-        // For testing
+//        // For testing
 //        String moves = "R L U D F B  R' L' U'  D' F'  B' R2 L2  U2  D2 F2 B2";
-//        String moves = "R L U D F B";
-
         String[] movesArray = moves.split("\\s+");
         moves = String.join("  ", movesArray); // Remove the unnecessary spaces
-
-
-
 
 
         // Display the solution
