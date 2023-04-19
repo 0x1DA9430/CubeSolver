@@ -98,6 +98,10 @@ public class Solution extends AppCompatActivity {
         // Get the solution from the previous activity
         receivedIntent = getIntent();
         String moves = receivedIntent.getStringExtra("solution");
+        // If moves is empty, cube is already solved, so finish the activity
+        if (moves.trim().isEmpty()) {
+            finishButton.performClick();
+        }
 
         // For testing
 //        String moves = "R L U D F B  R' L' U'  D' F'  B' R2 L2  U2  D2 F2 B2";
@@ -105,6 +109,9 @@ public class Solution extends AppCompatActivity {
 
         String[] movesArray = moves.split("\\s+");
         moves = String.join("  ", movesArray); // Remove the unnecessary spaces
+
+
+
 
 
         // Display the solution
@@ -347,19 +354,3 @@ public class Solution extends AppCompatActivity {
     }
 
 }
-
-
-//    // Web Cube Link
-//    static public String generateCubeLink(String solution) {
-//        String url = "https://ruwix.com/widget/3d/?";
-//        url += String.format("&alg=%s", Uri.encode(solution));
-//        url += String.format("&hover=%s" , "1");
-//        url += String.format("&speed=%s" , "1000");
-//        url += String.format("&flags=%s" , "showalg");
-//        url += String.format("&colors=%s" , Uri.encode("U:y L:r F:g R:o B:b D:w", ":"));
-//        url += String.format("&algdisplay=%s" , "rotations");
-//
-//        url = url.replace("'", "%27");
-//
-//        return url;
-//    }
