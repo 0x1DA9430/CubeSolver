@@ -141,9 +141,9 @@ public class Scan extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_FOR_PERMISSIONS);
         }
 
-        // prepare K-nearest neighbor
+        // Prepare K-nearest neighbor
         for (int i = 0; i < 6; i++) {
-            trainData.put(i, 0, ImageProcess.colorData[i]);
+            trainData.put(i, 0, ImageProcess.colorData[i]); // Training data
         }
         knn.train(trainData, ROW_SAMPLE, Converters.vector_int_to_Mat(ImageProcess.colorResponse));
 
@@ -192,9 +192,7 @@ public class Scan extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             String scannedCube = strings[0];
-            Log.i(TAG, "Scanned : " + scannedCube);
             String scrambledCube = ImageProcess.convertCubeAnnotation(scannedCube);
-            Log.i(TAG, "Scrambled : " + scrambledCube);
             lastErrorCode = Util.verify(scrambledCube);
             if (lastErrorCode == 0) {
                 return new Solver().solution(scrambledCube, 21, 100000000, 10000, Solver.APPEND_LENGTH);
@@ -282,7 +280,7 @@ public class Scan extends AppCompatActivity {
             int startX = (int) (w - cubeLen) / 2;
             int startY = (int) (h - cubeLen) / 2;
 
-            // detect color of each box
+            // detect color of each box using KNN
             synchronized (detectedColor) {
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
@@ -302,8 +300,12 @@ public class Scan extends AppCompatActivity {
             // Draw frame and detected color
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    Imgproc.putText(matOutput, ImageProcess.colorLabel[detectedColor[i][j]], new Point(startX + boxLen * i, startY + boxLen * (j + 1)), 2, 3, new Scalar(ImageProcess.colorData[detectedColor[i][j]]));
-                    Imgproc.rectangle(matOutput, new Rect(startX + boxLen * i, startY + boxLen * j, boxLen, boxLen), new Scalar(115, 187, 243), 2);
+                    int centerX = startX + boxLen * i + boxLen / 2;
+                    int centerY = startY + boxLen * j + boxLen / 2;
+                    int halfWidth = (boxLen - 60) / 2;
+                    int halfHeight = (boxLen - 60) / 2;
+                    Imgproc.rectangle(matOutput, new Rect(centerX - halfWidth, centerY - halfHeight, boxLen - 55, boxLen - 55), new Scalar(ImageProcess.colorData[detectedColor[i][j]]), 6);
+                    Imgproc.rectangle(matOutput, new Rect(startX + boxLen * i, startY + boxLen * j, boxLen, boxLen), new Scalar(90, 176, 243), 5/2);
                 }
             }
 
@@ -371,7 +373,6 @@ public class Scan extends AppCompatActivity {
             if (checkPermission()) {
                 startCamera();
             } else {
-                Log.i(TAG, "[onRequestPermissionsResult] Failed to get permissions");
                 this.finish();
             }
         }

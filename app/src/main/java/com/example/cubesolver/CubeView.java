@@ -49,7 +49,7 @@ public class CubeView extends View {
 
         int w = getWidth();
         int h = getHeight();
-        paint.setColor(Color.rgb(115, 187, 243));
+        paint.setColor(Color.rgb(187, 219, 243));
         canvas.drawRect(0, 0, w, h, paint);
 
         // Calculate box point

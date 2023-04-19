@@ -69,14 +69,14 @@ public class Result extends AppCompatActivity implements Comparable<Result>{
                         .addColors(Color.parseColor("#FF8F1F"), Color.parseColor("#A1D600"),
                                    Color.parseColor("#73BBF3"), Color.parseColor("#FFF314"))
                         .setDirection(250.0, 290.0)
-                        .setSpeed(1f, 5f)
+                        .setSpeed(1f, 6f)
                         .setFadeOutEnabled(true)
                         .setTimeToLive(2100L)
                         .addShapes(Shape.Square.INSTANCE, Shape.Circle.INSTANCE)
                         .addSizes(new Size(12, 5f))
                         // Set the position of the emitter to be a line across the top of the screen
                         .setPosition(0f, (float) viewKonfetti.getWidth(), -40f, -40f)
-                        .streamFor(250, 4000L);
+                        .streamFor(200, 3900L);
             }
         });
     }
