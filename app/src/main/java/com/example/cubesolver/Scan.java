@@ -258,10 +258,9 @@ public class Scan extends AppCompatActivity {
     }
 
     private class MyImageAnalyzer implements ImageAnalysis.Analyzer {
-
         @Override
         public void analyze(@NonNull ImageProxy image) {
-            // Create cv::mat(RGB888) from image(NV21)
+            // Convert image to Mat
             Mat mat = ImageProcess.imageToMat(image);
 
             // Fix image rotation (it looks image in PreviewView is automatically fixed by CameraX???)

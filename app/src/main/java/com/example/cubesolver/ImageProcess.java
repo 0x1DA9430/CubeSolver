@@ -34,12 +34,12 @@ public class ImageProcess {
 
     // Color definition
     static final double[][] colorData = {
-            {255, 215, 0, 0},    // Y
-            {254, 80, 0, 0},     // O
-            {0, 154, 68, 0},     // G
-            {255, 255, 255, 0},  // W
-            {186, 23, 47, 0},    // R
-            {0, 61, 165, 0},     // B
+            {255, 215, 0, 0},    // Yellow
+            {254, 80, 0, 0},     // Orange
+            {0, 154, 68, 0},     // Green
+            {255, 255, 255, 0},  // White
+            {186, 23, 47, 0},    // Red
+            {0, 61, 165, 0},     // Blue
     };
     static final String[] colorLabel = {"Y", "O", "G", "W", "R", "B"};
     static final String[] colorName = {"Yellow", "Orange", "Green", "White", "Red", "Blue"};
@@ -74,7 +74,7 @@ public class ImageProcess {
                 .replace("W", "D");
     }
 
-    // 计算图像中方框的平均颜色。 Calculate the average color of the box in the image.
+    // Calculate the average color of the box in the image.
     static Mat calcBoxAvgColor(Mat mat, int boxX, int boxY, int boxLen) {
         // extract box as sub matrix
         Mat boxMat = mat.submat(new Rect(boxX, boxY, boxLen, boxLen));
@@ -95,7 +95,7 @@ public class ImageProcess {
         return ret;
     }
 
-    // 计算两个颜色矩阵的移动平均值。 Calculate the moving average value of two color matrices.
+    // Calculate the moving average value of two color matrices.
     static Mat calcMovingAvgColor(@Nullable Mat matPrev, Mat matCurrent, float alpha) {
         if (matPrev == null) {
             return matCurrent;
