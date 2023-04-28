@@ -81,6 +81,7 @@ public class Solution extends AppCompatActivity {
             }
         });
 
+        // Finish
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -239,7 +240,7 @@ public class Solution extends AppCompatActivity {
         });
 
 
-        // Speaker
+        // Text to Speech Speaker
         ImageButton btnSpeak = findViewById(R.id.btn_speak);
         btnSpeak.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,16 +271,6 @@ public class Solution extends AppCompatActivity {
         });
 
 
-    }
-
-    // Release the TextToSpeech object resources
-    @Override
-    protected void onDestroy() {
-        if (textToSpeech != null) {
-            textToSpeech.stop();
-            textToSpeech.shutdown();
-        }
-        super.onDestroy();
     }
 
 
@@ -319,12 +310,6 @@ public class Solution extends AppCompatActivity {
         }, delay);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        isAutoPlaying = false;
-        btnAutoPlay.setBackgroundColor(Color.parseColor("#73BBF3"));
-    }
 
     @Override
     public void onBackPressed() {
@@ -346,6 +331,24 @@ public class Solution extends AppCompatActivity {
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isAutoPlaying = false;
+        btnAutoPlay.setBackgroundColor(Color.parseColor("#73BBF3"));
+    }
+
+    // Release the TextToSpeech object resources
+    @Override
+    protected void onDestroy() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        super.onDestroy();
     }
 
 }

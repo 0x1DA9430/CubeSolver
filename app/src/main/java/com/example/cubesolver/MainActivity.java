@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         popupMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                final ImageButton popupMenuButton = findViewById(R.id.popup_menu_button);
                 popupMenuButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

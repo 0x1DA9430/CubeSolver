@@ -140,7 +140,7 @@ public class Scan extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_FOR_PERMISSIONS);
         }
 
-        // Prepare K-nearest neighbor
+        // Prepare KNN
         for (int i = 0; i < 6; i++) {
             trainData.put(i, 0, ImageProcess.colorData[i]); // Training data
         }

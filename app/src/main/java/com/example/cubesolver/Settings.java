@@ -30,7 +30,7 @@ public class Settings extends AppCompatActivity {
         seekBarSpeedValue = findViewById(R.id.seekBar_speed_value);
 
         /* General */
-        //Set up theme spinner
+        // Set up theme spinner
         Spinner themeSpinner = findViewById(R.id.theme_spinner);
         ArrayAdapter<CharSequence> themeAdapter = ArrayAdapter.createFromResource(this,
                 R.array.theme_options, android.R.layout.simple_spinner_item);

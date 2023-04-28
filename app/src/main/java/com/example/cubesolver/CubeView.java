@@ -119,9 +119,6 @@ public class CubeView extends View {
         }
     }
 
-    private int getColor(char color) {
-        return getColor(String.valueOf(color));
-    }
 
     public void setFrontColors(int[][] colors) {
         String[][] colorsString = {{"", "", ""}, {"", "", ""}, {"", "", ""},};
@@ -130,7 +127,7 @@ public class CubeView extends View {
                 colorsString[i][j] = ImageProcess.colorLabel[colors[i][j]];
             }
         }
-        setFrontColors(colorsString);  // refresh
+        setFrontColors(colorsString);
     }
 
     public void setFrontColors(String[][] colors) {
@@ -138,33 +135,12 @@ public class CubeView extends View {
         String center = frontColors[1][1];
         frontColors = colors;
         frontColors[1][1] = center;
-        invalidate();
-    }
-
-    public void setFrontColors(String colors) {
-        assert colors.length() == 9;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                frontColors[i][j] = String.valueOf(colors.charAt(i * 3 + j));
-            }
-        }
-        invalidate();
+        invalidate();   // refresh
     }
 
     public void setCenterColor(String color) {
         assert color.length() == 1;
         frontColors[1][1] = color;
-        invalidate();
-    }
-
-    public void setCenterColor(char color) {
-        frontColors[1][1] = String.valueOf(color);
-        invalidate();
-    }
-
-    public void setSideColors(String[] colors) {
-        assert colors.length == 4;
-        sideColors = colors;
         invalidate();
     }
 

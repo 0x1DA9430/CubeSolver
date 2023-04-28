@@ -27,7 +27,6 @@ import java.util.List;
 * 计算图像中方框的平均颜色。 Calculate the average color of the box in the image.
 * 计算两个颜色矩阵的移动平均值。 Calculate the moving average value of two color matrices.
 * 使用 OpenCV 将 ImageProxy 对象转换为 Mat 对象。 Use OpenCV to convert ImageProxy object to Mat object.
-* 生成一个可视化魔方解决方案的 URI。 Generate a URI for a visualized cube solution.
 */
 
 public class ImageProcess {
@@ -54,17 +53,8 @@ public class ImageProcess {
             "YOWR",  // Blue
     };
 
-    // Error Message
-    static final String[] verifyMsg = {
-            "There is not exactly one facelet of each color.",               // -1
-            "Not all 12 edges exist exactly once.",                          // -2
-            "Flip error: One edge has to be flipped.",                       // -3
-            "Not all 8 corners exist exactly once.",                         // -4
-            "Twist error: One corner has to be twisted.",                    // -5
-            "Parity error: Two corners or two edges have to be exchanged.",  // -6
-    };
 
-    // 转换魔方注释，替换扫描到的魔方的颜色标签。 Convert cube annotation, replace color label of scanned cube.
+    // Convert cube annotation, replace color label of scanned cube.
     static String convertCubeAnnotation(String scannedCube) {
         return scannedCube
                 .replace("Y", "U")
@@ -109,7 +99,7 @@ public class ImageProcess {
         return ret;
     }
 
-    // 使用 OpenCV 将 ImageProxy 对象转换为 Mat 对象。 Use OpenCV to convert ImageProxy object to Mat object.
+    // Use OpenCV to convert ImageProxy object to Mat object.
     static public Mat imageToMat(ImageProxy image) {
         // Create cv::mat(RGB888) from image(NV21)
         if (image.getFormat() == ImageFormat.YUV_420_888) {

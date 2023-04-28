@@ -2,9 +2,10 @@ package com.example.cubesolver;
 
 
 /*
-* Coordinate is a Class. Includes methods and data structures used to solve the cube using the Kociemba (?) algorithm.
+* Coordinate is a Class. Includes methods and data structures used to solve the cube using the 2-phase algorithm.
 * This class is used to initialize pruning tables, move tables and conjugate tables, which are used in the search algorithm to find the optimal solution.
-* These tables store information about the state of a multidimensional dataset, how they change when certain moves are applied, and how they are related to each other in terms of symmetry.
+* These tables store information about the state of a multidimensional dataset, how they change when certain moves are applied,
+* and how they are related to each other in terms of symmetry.
 */
 
 public class Coordinate {
