@@ -74,7 +74,7 @@ public class Result extends AppCompatActivity implements Comparable<Result>{
                         .setTimeToLive(2100L)
                         .addShapes(Shape.Square.INSTANCE, Shape.Circle.INSTANCE)
                         .addSizes(new Size(12, 5f))
-                        // Set the position of the emitter to be a line across the top of the screen
+                        // Set the position at the top of screen
                         .setPosition(0f, (float) viewKonfetti.getWidth(), -40f, -40f)
                         .streamFor(200, 3900L);
             }

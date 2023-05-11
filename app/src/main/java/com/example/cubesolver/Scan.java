@@ -66,6 +66,7 @@ public class Scan extends AppCompatActivity {
     /***
      * Scan Order : Upper(0, Yellow) -> Right(1, Orange) -> Front(2, Green) -> Down(3, White) -> Left(4, Red) -> Back(5, Blue)
      */
+
     final protected int[][] detectedColor = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
     final protected Mat[][] aveColor = {{null, null, null}, {null, null, null}, {null, null, null}};
     private static final float alpha = 0.75f;
@@ -277,7 +278,7 @@ public class Scan extends AppCompatActivity {
             int startX = (int) (w - cubeLen) / 2;
             int startY = (int) (h - cubeLen) / 2;
 
-            // detect color of each box using KNN
+            // Detect color of each box using KNN
             synchronized (detectedColor) {
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {

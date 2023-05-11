@@ -23,10 +23,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /*
-* 转换魔方注释，替换颜色标签。Convert cube annotation, replace color label.
-* 计算图像中方框的平均颜色。 Calculate the average color of the box in the image.
-* 计算两个颜色矩阵的移动平均值。 Calculate the moving average value of two color matrices.
-* 使用 OpenCV 将 ImageProxy 对象转换为 Mat 对象。 Use OpenCV to convert ImageProxy object to Mat object.
+* Convert cube annotation, replace color label.
+* Calculate the average color of the box in the image.
+* Calculate the moving average value of two color matrices.
+* Use OpenCV to convert ImageProxy object to Mat object.
 */
 
 public class ImageProcess {
@@ -43,7 +43,6 @@ public class ImageProcess {
     static final String[] colorLabel = {"Y", "O", "G", "W", "R", "B"};
     static final String[] colorName = {"Yellow", "Orange", "Green", "White", "Red", "Blue"};
     static final List<Integer> colorResponse = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5));
-    // top -> left -> down -> right
     static final String[] arrSideColors = {
             "BRGO",  // Yellow
             "YGWB",  // Orange
