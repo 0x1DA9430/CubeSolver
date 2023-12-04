@@ -1,6 +1,6 @@
 # CubeSolver
 
-A 3x3x3 Rubik's Cube Solver
+A 3x3x3 Rubik's Cube Solver for Android.
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/YankFitzgerald/ImgHub2/main/202311220037564.png" style="zoom:80%;" />
@@ -31,20 +31,18 @@ A 3x3x3 Rubik's Cube Solver
 
 
 ## Screenshots
-<p align="center">
-    <table>
-    <tr>
-        <td><img src="figures/home.jpg" alt="Home" width="200px" /></td>
-        <td><img src="figures/scan.jpg" alt="Scan" width="200px" /></td>
-        <td><img src="figures/wrong face.jpg" alt="Wrong Face" width="200px" /></td>
-    </tr>
-    <tr>
-        <td><img src="figures/sol2.jpg" alt="Solution 2" width="200px" /></td>
-        <td><img src="figures/result.jpg" alt="Result" width="200px" /></td>
-        <td><img src="figures/settings.jpg" alt="Settings" width="200px" /></td>
-    </tr>
-    </table>
-</p>
+<table>
+<tr>
+    <td><img src="figures/home.jpg" alt="Home" width="250px" /></td>
+    <td><img src="figures/scan.jpg" alt="Scan" width="250px" /></td>
+    <td><img src="figures/wrong face.jpg" alt="Wrong Face" width="250px" /></td>
+</tr>
+<tr>
+    <td><img src="figures/sol2.jpg" alt="Solution 2" width="250px" /></td>
+    <td><img src="figures/result.jpg" alt="Result" width="250px" /></td>
+    <td><img src="figures/settings.jpg" alt="Settings" width="250px" /></td>
+</tr>
+</table>
 
 
 ## Getting Started
