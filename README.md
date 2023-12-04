@@ -3,7 +3,7 @@
 A 3x3x3 Rubik's Cube Solver for Android.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/YankFitzgerald/ImgHub2/main/202311220037564.png" style="zoom:75%;" />
+<img src="https://raw.githubusercontent.com/YankFitzgerald/ImgHub2/main/202311220037564.png" style="zoom:70%;" />
 </p>
 
 
@@ -16,7 +16,7 @@ A 3x3x3 Rubik's Cube Solver for Android.
 
 - **Voice Cues and Auto-play:** Enhances user experience with audio guidance and automatic progression of solving steps.
 - **Timer and History Module:** Tracks and records solving times and dates for user performance analysis.
-- **User Interface:** Offers a user-friendly, accessible design suitable for various skill levels and individuals with visual impairments.
+- **User Interface:** Offers a user-friendly, accessible design suitable for various skill levels with visual impairments.
 
 
 
