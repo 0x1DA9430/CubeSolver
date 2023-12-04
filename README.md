@@ -3,7 +3,7 @@
 A 3x3x3 Rubik's Cube Solver for Android.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/YankFitzgerald/ImgHub2/main/202311220037564.png" style="zoom:80%;" />
+<img src="https://raw.githubusercontent.com/YankFitzgerald/ImgHub2/main/202311220037564.png" style="zoom:75%;" />
 </p>
 
 
@@ -28,7 +28,11 @@ A 3x3x3 Rubik's Cube Solver for Android.
 - **OpenCV Library:** Utilized for computer vision functionalities.
 - **Gradle Scripts:** Manages compilation configurations and dependencies.
 
+## UI Flowchart
 
+<p align="center">
+<img src="figures\cube layout.png" width="550px" />
+</p>
 
 ## Screenshots
 <table>
@@ -49,7 +53,7 @@ A 3x3x3 Rubik's Cube Solver for Android.
 
 ### Installation
 
-Down load the [apk](https://github.com/YankFitzgerald/CubeSolver/releases/tag/Publish) and install on your android devices.
+Download the [apk](https://github.com/YankFitzgerald/CubeSolver/releases/tag/Publish) file and install on your android devices.
 
 ### Debug in Android Studio
 
@@ -94,5 +98,3 @@ You will need to Integrate OpenCV first.
 ---
 
 Developed with ❤️&☕ by Ke Yan.
-
-Supervised by Dr. Joshua Alcock.
