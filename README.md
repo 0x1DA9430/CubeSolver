@@ -31,20 +31,20 @@ A 3x3x3 Rubik's Cube Solver
 
 
 ## Screenshots
-
-<table>
-  <tr>
-    <td><img src="figures/home.jpg" alt="Home" width="150px" /></td>
-    <td><img src="figures/scan.jpg" alt="Scan" width="150px" /></td>
-    <td><img src="figures/wrong face.jpg" alt="Wrong Face" width="150px" /></td>
-  </tr>
-  <tr>
-    <td><img src="figures/sol2.jpg" alt="Solution 2" width="150px" /></td>
-    <td><img src="figures/result.jpg" alt="Result" width="150px" /></td>
-    <td><img src="figures/settings.jpg" alt="Settings" width="150px" /></td>
-  </tr>
-</table>
-
+<p align="center">
+    <table>
+    <tr>
+        <td><img src="figures/home.jpg" alt="Home" width="200px" /></td>
+        <td><img src="figures/scan.jpg" alt="Scan" width="200px" /></td>
+        <td><img src="figures/wrong face.jpg" alt="Wrong Face" width="200px" /></td>
+    </tr>
+    <tr>
+        <td><img src="figures/sol2.jpg" alt="Solution 2" width="200px" /></td>
+        <td><img src="figures/result.jpg" alt="Result" width="200px" /></td>
+        <td><img src="figures/settings.jpg" alt="Settings" width="200px" /></td>
+    </tr>
+    </table>
+</p>
 
 
 ## Getting Started
