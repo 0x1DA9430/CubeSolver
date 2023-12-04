@@ -32,63 +32,18 @@ A 3x3x3 Rubik's Cube Solver
 
 ## Screenshots
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Image Grid</title>
-    <style>
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            gap: 10px; /* Adjust the gap between images */
-        }
-        .image-block {
-            width: calc(33.333% - 20px); /* Subtracting 20px to account for the gap */
-            /* height: 150px; Removed fixed height to allow image to define block size */
-            border: 1px solid #ccc; /* Border for visual separation */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 10px; /* Space between rows */
-        }
-        img {
-            width: 100%;
-            /* height: 100%; Removed to prevent stretching or cropping */
-            object-fit: contain; /* Ensures the image is fully visible */
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <div class="image-block">
-        <img src="figures/home.jpg" alt="Home Image Description">
-    </div>
-    <div class="image-block">
-        <img src="figures/scan.jpg" alt="Scan Image Description">
-    </div>
-    <div class="image-block">
-        <img src="figures/wrong face.jpg" alt="Wrong Face Image Description">
-    </div>
-    <div class="image-block">
-        <img src="figures/sol2.jpg" alt="Solution 2 Image Description">
-    </div>
-    <div class="image-block">
-        <img src="figures/result.jpg" alt="Result Image Description">
-    </div>
-    <div class="image-block">
-        <img src="figures/settings.jpg" alt="Settings Image Description">
-    </div>
-</div>
-
-</body>
-</html>
-
-
-
-
-
+<table>
+  <tr>
+    <td><img src="figures/home.jpg" alt="Home" width="150px" /></td>
+    <td><img src="figures/scan.jpg" alt="Scan" width="150px" /></td>
+    <td><img src="figures/wrong face.jpg" alt="Wrong Face" width="150px" /></td>
+  </tr>
+  <tr>
+    <td><img src="figures/sol2.jpg" alt="Solution 2" width="150px" /></td>
+    <td><img src="figures/result.jpg" alt="Result" width="150px" /></td>
+    <td><img src="figures/settings.jpg" alt="Settings" width="150px" /></td>
+  </tr>
+</table>
 
 
 
