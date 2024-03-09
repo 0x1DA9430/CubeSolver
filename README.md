@@ -3,7 +3,7 @@
 A 3x3x3 Rubik's Cube Solver for Android.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/YankFitzgerald/ImgHub2/main/202311220037564.png" style="zoom:70%;" />
+<img src="https://github.com/YankFitzgerald/CubeSolver/blob/master/figures/202311220037564.png" style="zoom:70%;" />
 </p>
 
 
